@@ -90,6 +90,7 @@ void setup() {
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);
+    glEnable( GL_DEPTH_TEST);
 }
 
 void printCameraCoords() {
