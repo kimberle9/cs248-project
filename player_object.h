@@ -8,6 +8,7 @@
 #define SPEED 0.2
 #define LEFT_TURN .05
 #define RIGHT_TURN -.05
+#define MAX_Y_SPEED -0.15
 
 class PlayerObject: public GameObject
 {

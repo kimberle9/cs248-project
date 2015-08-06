@@ -42,6 +42,10 @@ void PlayerObject::animate()
 	else
 	{
 		direction.y += GRAVITY;
+		if ( direction.y < MAX_Y_SPEED )
+		{
+			direction.y = MAX_Y_SPEED;
+		}
 	}
 
 	return;

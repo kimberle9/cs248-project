@@ -30,6 +30,7 @@ void updateCamera()
 	
 	cameraPosition.x = playerPosition.x - (playerDirection.x * 20);
 	cameraPosition.z = playerPosition.z - (playerDirection.z * 20);
+	cameraPosition.y = playerPosition.y + 5;
 	
 	cameraAim.x = playerPosition.x;
 	cameraAim.z = playerPosition.z;
