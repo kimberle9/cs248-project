@@ -38,6 +38,7 @@ void SimpleTexture::loadImageData(GLuint texId, const float* pixels, int width, 
 
 void SimpleTexture::bind() {
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, mTexId);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 }
 

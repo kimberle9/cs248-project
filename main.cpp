@@ -14,12 +14,14 @@
 #include "mesh.h"
 #include "game_object.h"
 #include "player_object.h"
+#include "coin_object.h"
 #include "scene.h"
 
 Scene scene;
 
 PlayerObject *player;
 GameObject *environment;
+CoinObject *coins;
 
 Point3f cameraNormal = Point3f(0.0, 1.0, 0.0);
 
@@ -83,9 +85,11 @@ void setup() {
 
     player = new PlayerObject("player", "objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
+    coins = new CoinObject("coins", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0));
     
-    scene.gameObjects.push_back(environment);
-    scene.gameObjects.push_back(player);
+    scene.gameObjects.push_back( environment);
+    scene.gameObjects.push_back( coins);
+    scene.gameObjects.push_back ( player);
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);

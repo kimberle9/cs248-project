@@ -17,7 +17,7 @@ struct Collision {
 class GameObject {
 protected:
 	Mesh mesh;
-	SimpleTexture *texture;
+	SimpleTexture *texture = NULL;
 
 public:
 	Point3f t; // translation vector
@@ -34,7 +34,7 @@ public:
 	boost::optional<Collision> getCollision(GameObject *o);
 
 	virtual void update( void);
-	virtual void draw();
+	virtual void draw( void);
 
 	// this function gets called when this object collides with another.
 	// params:
