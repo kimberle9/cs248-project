@@ -3,11 +3,11 @@
 
 #include "game_object.h"
 
-#define GRAVITY -0.10
-#define JUMP_VELOCITY 2.0
-#define SPEED 0.25
-#define LEFT_TURN .02
-#define RIGHT_TURN -.02
+#define GRAVITY -0.02
+#define JUMP_VELOCITY 0.6
+#define SPEED 0.2
+#define LEFT_TURN .05
+#define RIGHT_TURN -.05
 
 class PlayerObject: public GameObject
 {
