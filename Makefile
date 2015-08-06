@@ -3,7 +3,7 @@
 T1 := game
 
 # list files to compile and link together
-FILES1   := main simple_image simple_texture stb mesh game_object
+FILES1   := main simple_image simple_texture stb mesh game_object player_object
 
 #################################################################
 
@@ -14,7 +14,7 @@ LD		 := g++
 OBJSUFFIX	 := .o
 LIBPREFIX	 := lib
 STATIC_LIBSUFFIX := .a
-CFLAGS 		 := -g -Wno-c++11-extensions
+CFLAGS 		 := -g -std=c++11
 CFLAGS_PLATFORM  := 
 LDFLAGS		 := 
 FRAMEWORKS	 := 

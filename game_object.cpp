@@ -57,3 +57,8 @@ bool GameObject::intersects(GameObject *o) {
     }
     return false;
 }
+
+void GameObject::animate()
+{
+	return;
+}
