@@ -1,6 +1,6 @@
 # Blender v2.75 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib tree.mtl
+# mtllib tree.mtl
 o Cube
 v 0.333333 -1.000000 0.333333
 v -1.000000 2.031481 0.333333
@@ -524,7 +524,7 @@ vn 0.734700 0.672400 -0.090100
 vn -0.280100 0.806900 0.520100
 vn -0.153100 0.544900 0.824400
 vn 0.071200 0.650400 0.756300
-usemtl Material
+# usemtl Material
 s off
 f 121//1 151//1 61//1
 f 1//2 61//2 152//2
