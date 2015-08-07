@@ -27,9 +27,6 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 
 void GameObject::draw() {
 	glPushMatrix();
-	
-	//glMatrixMode( GL_MODELVIEW);
-	//glLoadIdentity();
 
     glTranslatef(t.x, t.y, t.z);
     glScalef(s.x, s.y, s.z);
@@ -46,6 +43,7 @@ void GameObject::draw() {
 }
 
 void GameObject::setScale(Point3f _s) { s = _s; }
+void GameObject::setTranslation( Point3f _t) { t = _t; }
 
 boost::optional<Collision> GameObject::getCollision(GameObject *o) {
 	for (auto &face : mesh.faces) {

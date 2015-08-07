@@ -28,6 +28,11 @@ void PlayerObject::update()
 	speed = 0; //if speed were set, reset it to 0
 	
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
+	if (t.y < 0)
+	{
+		t.y = 0;
+	}
+	
 	if (direction.y != 0) {
 		direction.y += GRAVITY;
 		if ( direction.y < MAX_Y_SPEED )
@@ -41,7 +46,8 @@ void PlayerObject::update()
 
 void PlayerObject::jump()
 {
-	direction.y = JUMP_VELOCITY;
+	//direction.y = JUMP_VELOCITY;
+	t.y += JUMP_VELOCITY;
 	return;
 }
 

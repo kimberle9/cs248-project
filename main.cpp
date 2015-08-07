@@ -85,10 +85,10 @@ void setup() {
 
     player = new PlayerObject("player", "objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
-    coins = new CoinObject("coins", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0));
+    
+    CoinObject::generateCoins( &scene);
     
     scene.gameObjects.push_back( environment);
-    scene.gameObjects.push_back( coins);
     scene.gameObjects.push_back ( player);
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

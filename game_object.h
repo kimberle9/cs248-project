@@ -30,6 +30,7 @@ public:
 	void init(const std::string& _name, const std::string& meshFilePath); // common initialization code
 	
 	void setScale(Point3f s);
+	void setTranslation( Point3f _t);
 
 	boost::optional<Collision> getCollision(GameObject *o);
 
