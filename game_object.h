@@ -25,6 +25,7 @@ private:
 
 protected:
 	SimpleTexture *texture = NULL;
+	bool _destroyed;
 
 	// gets called before every draw call of this object.
 	// should be overriden by sub-classes to update object state (position, rotation, etc).
@@ -64,6 +65,10 @@ public:
 	void rotate(float _angle);
 
 	Point3f getPosition();
+	float distanceFrom( GameObject* otherObject);
+	float horizontalDistanceFrom( GameObject* otherObject);
+	float verticalDistanceFrom( GameObject* otherObject);
+	bool destroyed();
 
 	// gets called during every OpenGL draw call.
 	// this method should not be overriden by sub-classes (override updateHandler instead)

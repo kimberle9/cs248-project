@@ -15,6 +15,13 @@ void Scene::update() {
 	std::map<GameObject *, bool> wasUpdated;
     for (GameObject *gameObject: gameObjects) {
     	bool updated = gameObject->update();
+    	
+    	if ( gameObject->destroyed() )
+    	{
+    		gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
+    		continue;
+    	}
+    	
     	wasUpdated.insert(std::pair<GameObject *, bool>(gameObject, updated));
     }
 

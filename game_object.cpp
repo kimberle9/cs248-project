@@ -20,6 +20,7 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 	rotationAngle = 0;
 	name = _name;
 	mesh.loadData(meshFilePath);
+	_destroyed = false;
 }
 
 bool GameObject::update() {
@@ -58,6 +59,49 @@ void GameObject::draw() {
 	if (texture != NULL) { texture->unBind(); }
 
 	glPopMatrix();
+}
+
+float GameObject::distanceFrom( GameObject* otherObject)
+{
+	float result = 0;
+	
+	Point3f otherLoc = otherObject->getPosition();
+	float dx = t.x - otherLoc.x;
+	float dy = t.y - otherLoc.y;
+	float dz = t.z - otherLoc.z;
+	
+	result = sqrt( dx * dx + dz * dz + dy * dy);
+	
+	return result;
+}
+
+float GameObject::horizontalDistanceFrom( GameObject* otherObject)
+{
+	float result = 0;
+	
+	Point3f otherLoc = otherObject->getPosition();
+	float dx = t.x - otherLoc.x;
+	float dz = t.z - otherLoc.z;
+	
+	result = sqrt( dx * dx + dz * dz);
+	
+	return result;
+}
+
+float GameObject::verticalDistanceFrom( GameObject* otherObject)
+{
+	float result = 0;
+	
+	Point3f otherLoc = otherObject->getPosition();
+	
+	result = abs( t.y - otherLoc.y);
+	
+	return result;
+}
+
+bool GameObject::destroyed()
+{
+	return _destroyed;
 }
 
 void GameObject::setScale(Point3f _s) { s = _s; }

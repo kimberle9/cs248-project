@@ -9,8 +9,10 @@
 #define COIN_SCALE Point3f( .1, .1, .1)
 #define ROTATION_AXIS Point3f( 0.0, 1.0, 0.0)
 #define COIN_ROTATION -0.25
+#define COLLECT_DISTANCE 1.0
+#define TOTAL_COINS 11
 
-#define COIN_1_LOCATION Point3f( 6.0, 1.1, 10.0) //starting platform
+#define COIN_1_LOCATION Point3f( 5.0, 1.1, 10.0) //starting platform
 #define COIN_2_LOCATION Point3f( -7.0, 4.3, 6.0) //third platform
 #define COIN_3_LOCATION Point3f( 10.0, 2.5, -11.0) //second platform
 #define COIN_4_LOCATION Point3f( -7.0, 6.0, -4.0) //circular 1
@@ -31,8 +33,6 @@ class CoinObject: public GameObject
 
 		void init( Point3f location);
 		void updateHandler();
-		
-		float distanceFrom( GameObject* otherObject);
 	
 		void collisionHandler(GameObject *gameObject, Collision collision);
 		

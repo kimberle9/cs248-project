@@ -1,4 +1,5 @@
 #include "player_object.h"
+#include "coin_object.h"
 
 PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) :
 	GameObject(_name, meshFilePath, _color) 
@@ -14,6 +15,8 @@ PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFile
 
 void PlayerObject::init() 
 {
+	lives = 3;
+	coins = 0;
 	t = INITIAL_TRANSLATION;
 	directionAngle = INITIAL_DIRECTION;
 	setScale(PLAYER_SCALE);
@@ -103,6 +106,27 @@ void PlayerObject::turn( float degrees)
 
 	//y is updated as a part of jump/animate.
 
+	return;
+}
+
+void PlayerObject::die()
+{
+	lives--;
+	setTranslation( INITIAL_TRANSLATION);
+	directionAngle = INITIAL_DIRECTION;
+	direction = Point3f( 0.0, 0.0, 0.0);
+	return;
+}
+
+void PlayerObject::addCoin()
+{
+	coins++;
+	
+	if ( coins == TOTAL_COINS )
+	{
+		//win();
+	}
+	
 	return;
 }
 

@@ -19,6 +19,9 @@ class PlayerObject: public GameObject
 {
 	public:
 	
+		int lives;
+		int coins;
+	
 		PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color);
 		PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId);
 
@@ -32,6 +35,9 @@ class PlayerObject: public GameObject
 		
 		float distanceFrom( GameObject* otherObject);
 		void attack( GameObject* otherObject);
+		
+		void die();
+		void addCoin();
 	
 		void updateHandler(); //moves the character 1 unit in the forward direction
 		void collisionHandler(GameObject *gameObject, Collision collision);

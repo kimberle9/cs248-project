@@ -28,9 +28,11 @@ void EnemyObject::init( Point3f location)
 void EnemyObject::updateHandler()
 {
 	float distance = distanceFrom( player);
+	float horizontalD = horizontalDistanceFrom( player);
+	float verticalD = verticalDistanceFrom( player);
 	Point3f playerLoc = player->getPosition();
 
-	if ( ATTACK_DISTANCE > distance )
+	if ( ATTACK_DISTANCE > distance && 1 > verticalD )
 	{
 		//put the enemy into attack mode!
 		//dividing by distance approximately normalizes the result
@@ -51,28 +53,39 @@ void EnemyObject::updateHandler()
 		direction.y = 0.0;
 		direction.z = 0.0;
 	}
+	
+	//kill it, or explode?
+	distance = distanceFrom( player);
+	verticalD = verticalDistanceFrom( player);
+	if ( EXPLODE_DISTANCE > distance )
+	{
+		//more on top of it or more to the side?
+		if ( MIN_VERTICAL_DY < verticalD )
+		{
+			//on top, bomb is disabled
+			disable();
+		}
+		else
+		{
+			//on side! EXPLODE!!!
+			explode();
+		}
+	}
 
 	return;
 }
 
-float EnemyObject::distanceFrom( GameObject* otherObject)
+void EnemyObject::disable()
 {
-	float result = 0;
-	
-	Point3f otherLoc = otherObject->getPosition();
-	float dx = t.x - otherLoc.x;
-	float dy = t.y - otherLoc.y;
-	float dz = t.z - otherLoc.z;
-	
-	result = sqrt( dx * dx + dz * dz); //just 2D distance
-	
-	//if it's too far in the y direction, we'll say they can't see each other or something
-	if ( 1.0 < abs( dy) )
-	{
-		result = 1000.0;
-	}
-	
-	return result;
+	_destroyed = true;
+	return;
+}
+
+void EnemyObject::explode()
+{
+	player->die();
+	disable();
+	return;
 }
 
 void EnemyObject::collisionHandler(GameObject *gameObject, Collision collision) {

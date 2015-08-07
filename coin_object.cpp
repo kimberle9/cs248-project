@@ -1,4 +1,7 @@
 #include "coin_object.h"
+#include "player_object.h"
+
+extern PlayerObject* player;
 
 CoinObject::CoinObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color, Point3f location) :
 	GameObject(_name, meshFilePath, _color) 
@@ -31,11 +34,17 @@ void CoinObject::rotateCoin()
 void CoinObject::updateHandler()
 {
 	rotateCoin();
-}
+	
+	float distance = distanceFrom( player);
 
-float CoinObject::distanceFrom( GameObject* otherObject)
-{
-	return 0;
+	if ( COLLECT_DISTANCE > distance )
+	{
+		//got the coin!
+		player->addCoin();
+		_destroyed = true;
+	}
+	
+	return;
 }
 
 void CoinObject::collisionHandler(GameObject *gameObject, Collision collision) {

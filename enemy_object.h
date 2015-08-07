@@ -7,6 +7,8 @@
 #define INITIAL_DIRECTION 91
 #define ATTACK_SPEED 0.3
 #define ATTACK_DISTANCE 7.0
+#define EXPLODE_DISTANCE 0.25
+#define MIN_VERTICAL_DY 0.176
 
 #define ENEMY_SCALE Point3f( .2, .2, .2)
 
@@ -22,8 +24,6 @@ class EnemyObject: public GameObject
 
 		void init( Point3f location);
 		void updateHandler();
-		
-		float distanceFrom( GameObject* otherObject);
 	
 		void collisionHandler(GameObject *gameObject, Collision collision);
 		
@@ -33,6 +33,9 @@ class EnemyObject: public GameObject
 	
 		Point3f direction;
 		float speed;
+		
+		void disable();
+		void explode();
 
 };
 
