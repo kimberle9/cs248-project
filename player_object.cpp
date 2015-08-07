@@ -46,8 +46,8 @@ void PlayerObject::update()
 
 void PlayerObject::jump()
 {
-	//direction.y = JUMP_VELOCITY;
-	t.y += JUMP_VELOCITY;
+	direction.y = JUMP_VELOCITY;
+	//t.y += JUMP_VELOCITY;
 	return;
 }
 

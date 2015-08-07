@@ -15,6 +15,7 @@
 #include "game_object.h"
 #include "player_object.h"
 #include "coin_object.h"
+#include "enemy_object.h"
 #include "scene.h"
 
 Scene scene;
@@ -87,6 +88,7 @@ void setup() {
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
     
     CoinObject::generateCoins( &scene);
+    EnemyObject::generateEnemies( &scene);
     
     scene.gameObjects.push_back( environment);
     scene.gameObjects.push_back ( player);
