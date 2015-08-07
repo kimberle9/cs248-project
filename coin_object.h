@@ -22,7 +22,7 @@
 #define COIN_8_LOCATION Point3f( -2.2, 11.75, -10.55) //circular 5
 #define COIN_9_LOCATION Point3f( -4.0, 14.88, -11.55) //steps 1
 #define COIN_10_LOCATION Point3f( -4.5, 16.71, -6.65) //steps 2
-#define STAR_LOCATION Point3f( -5.5, 18.5, -9.65) //star
+#define STAR_LOCATION Point3f( -5.5, 18.0, -9.65) //star
 
 class CoinObject: public GameObject
 {

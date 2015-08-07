@@ -8,12 +8,12 @@
 #define SPEED 0.95
 #define LEFT_TURN .23
 #define RIGHT_TURN -.23
-#define MAX_Y_SPEED -0.2
+#define MAX_Y_SPEED -0.8
 
 #define INITIAL_TRANSLATION Point3f(7.0, 1.2, 8.0)
 #define INITIAL_DIRECTION 91
 
-#define PLAYER_SCALE Point3f(.1, .1, .1)
+#define PLAYER_SCALE Point3f(.12, .12, .12)
 
 class PlayerObject: public GameObject
 {

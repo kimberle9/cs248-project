@@ -82,18 +82,21 @@ void reshapeCallback(int w, int h) {
 }
 
 void setup() {
-    glGenTextures(1, textures);
+    glGenTextures(2, textures);
 
     scene = new Scene();
     
-    player = new PlayerObject("player", "objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
+    player = new PlayerObject("player", "objects/character.obj", RGBColor(0.0, 1.0, 0.0));
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
+    GameObject* sky = new GameObject( "sky", "environments/textured_sky.obj", "textures/Sky.png", textures[1]); 
+    sky->setScale( Point3f( 20.0, 20.0, 20.0));
     
     CoinObject::generateCoins(scene);
     EnemyObject::generateEnemies(scene);
     
     scene->gameObjects.push_back( environment);
     scene->gameObjects.push_back ( player);
+    scene->gameObjects.push_back( sky);
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);

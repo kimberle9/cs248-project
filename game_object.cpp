@@ -87,7 +87,7 @@ float GameObject::verticalDistanceFrom( GameObject* otherObject)
 	
 	Point3f otherLoc = otherObject->getPosition();
 	
-	result = abs( t.y - otherLoc.y);
+	result = fabs( t.y - otherLoc.y);
 	
 	return result;
 }

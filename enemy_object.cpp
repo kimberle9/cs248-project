@@ -56,11 +56,14 @@ void EnemyObject::update()
 	
 	//kill it, or explode?
 	distance = distanceFrom( player);
-	verticalD = verticalDistanceFrom( player);
 	if ( EXPLODE_DISTANCE > distance )
 	{
+	
+		float horizontal = horizontalDistanceFrom( player);
+		float vertical = verticalDistanceFrom( player);
 		//more on top of it or more to the side?
-		if ( MIN_VERTICAL_DY < verticalD )
+
+		if ( horizontal <= vertical )
 		{
 			//on top, bomb is disabled
 			disable();
@@ -94,7 +97,15 @@ void EnemyObject::collisionHandler(GameObject *gameObject, Collision collision) 
 
 void EnemyObject::generateEnemies( Scene* scene)
 {
-	scene->gameObjects.push_back( new EnemyObject("enemy1", "objects/star.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
+	scene->gameObjects.push_back( new EnemyObject("enemy1", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
 	
-	scene->gameObjects.push_back( new EnemyObject("enemy2", "objects/star.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_2_LOCATION));
+	scene->gameObjects.push_back( new EnemyObject("enemy2", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_2_LOCATION));
+	
+	scene->gameObjects.push_back( new EnemyObject("enemy3", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_3_LOCATION));
+	
+	scene->gameObjects.push_back( new EnemyObject("enemy4", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_4_LOCATION));
+	
+	EnemyObject* boss = new EnemyObject("enemy5", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), BOSS_LOCATION);
+	boss->setScale( Point3f( 0.25, 0.25, 0.25));
+	scene->gameObjects.push_back( boss);
 }

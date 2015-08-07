@@ -73,5 +73,7 @@ void CoinObject::generateCoins( Scene* scene)
 	
 	scene->gameObjects.push_back( new CoinObject("coin10", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_10_LOCATION));
 	
-	scene->gameObjects.push_back( new CoinObject("star", "objects/star.obj", RGBColor(1.0, 1.0, 0.0), STAR_LOCATION));
+	CoinObject* goal = new CoinObject("star", "objects/star.obj", RGBColor(1.0, 1.0, 0.0), STAR_LOCATION);
+	goal->setScale( Point3f( 0.3, 0.3, 0.3));
+	scene->gameObjects.push_back( goal);
 }

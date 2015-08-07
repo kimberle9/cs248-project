@@ -5,15 +5,17 @@
 #include "scene.h"
 
 #define INITIAL_DIRECTION 91
-#define ATTACK_SPEED 0.3
-#define ATTACK_DISTANCE 7.0
-#define EXPLODE_DISTANCE 0.25
-#define MIN_VERTICAL_DY 0.176
+#define ATTACK_SPEED 0.5
+#define ATTACK_DISTANCE 8.0
+#define EXPLODE_DISTANCE 0.5
 
-#define ENEMY_SCALE Point3f( .2, .2, .2)
+#define ENEMY_SCALE Point3f( .1, .1, .1)
 
 #define ENEMY_1_LOCATION Point3f( 7.0, 2.5, -11.0)
 #define ENEMY_2_LOCATION Point3f( -5.0, 4.3, 6.0)
+#define ENEMY_3_LOCATION Point3f( -8.0, 9.0, -11.25)
+#define ENEMY_4_LOCATION Point3f( -7.0, 12.88, -11.55)
+#define BOSS_LOCATION Point3f( -6.5, 18.0, -9.5)
 
 class EnemyObject: public GameObject
 {
