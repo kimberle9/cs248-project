@@ -69,11 +69,6 @@ void PlayerObject::turnRight()
 	return;
 }
 
-Point3f PlayerObject::getPosition()
-{
-	return t;
-}
-
 Point3f PlayerObject::getDirection()
 {
 	return direction;

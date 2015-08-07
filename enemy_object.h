@@ -5,10 +5,13 @@
 #include "scene.h"
 
 #define INITIAL_DIRECTION 91
+#define ATTACK_SPEED 0.3
+#define ATTACK_DISTANCE 7.0
 
 #define ENEMY_SCALE Point3f( .2, .2, .2)
 
 #define ENEMY_1_LOCATION Point3f( 7.0, 2.5, -11.0)
+#define ENEMY_2_LOCATION Point3f( -5.0, 4.3, 6.0)
 
 class EnemyObject: public GameObject
 {
@@ -27,6 +30,9 @@ class EnemyObject: public GameObject
 		static void generateEnemies( Scene* scene);
 
 	private:
+	
+		Point3f direction;
+		float speed;
 
 };
 

@@ -45,6 +45,11 @@ void GameObject::draw() {
 void GameObject::setScale(Point3f _s) { s = _s; }
 void GameObject::setTranslation( Point3f _t) { t = _t; }
 
+Point3f GameObject::getPosition()
+{
+	return t;
+}
+
 boost::optional<Collision> GameObject::getCollision(GameObject *o) {
 	for (auto &face : mesh.faces) {
 		Triangle3f faceT = (face * s + t);

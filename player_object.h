@@ -29,7 +29,6 @@ class PlayerObject: public GameObject
 		void turnLeft(); //turn character/camera to the left
 		void turnRight(); //turn character/camera to the right
 		
-		Point3f getPosition();
 		Point3f getDirection();
 		
 		float distanceFrom( GameObject* otherObject);

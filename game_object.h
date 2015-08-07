@@ -31,6 +31,7 @@ public:
 	
 	void setScale(Point3f s);
 	void setTranslation( Point3f _t);
+	Point3f getPosition();
 
 	boost::optional<Collision> getCollision(GameObject *o);
 
