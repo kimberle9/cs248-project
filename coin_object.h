@@ -8,7 +8,7 @@
 
 #define COIN_SCALE Point3f( .1, .1, .1)
 #define ROTATION_AXIS Point3f( 0.0, 1.0, 0.0)
-#define COIN_ROTATION -0.25
+#define COIN_ROTATION -13.25
 #define COLLECT_DISTANCE 1.0
 #define TOTAL_COINS 11
 

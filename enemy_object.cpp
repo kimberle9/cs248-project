@@ -23,6 +23,7 @@ void EnemyObject::init( Point3f location)
 {
 	setScale( ENEMY_SCALE);
 	setTranslation( location);
+	setExplodeRadius( EXPLODE_DISTANCE);
 }
 
 void EnemyObject::update()
@@ -56,14 +57,13 @@ void EnemyObject::update()
 	
 	//kill it, or explode?
 	distance = distanceFrom( player);
-	if ( EXPLODE_DISTANCE > distance )
+	if ( explodeRadius > distance )
 	{
-	
 		float horizontal = horizontalDistanceFrom( player);
 		float vertical = verticalDistanceFrom( player);
 		//more on top of it or more to the side?
 
-		if ( horizontal <= vertical )
+		if ( horizontal <= (1.05 * vertical) )
 		{
 			//on top, bomb is disabled
 			disable();
@@ -95,6 +95,8 @@ void EnemyObject::collisionHandler(GameObject *gameObject, Collision collision) 
 	return;
 }
 
+void EnemyObject::setExplodeRadius( float _explodeRadius) { explodeRadius = _explodeRadius; }
+
 void EnemyObject::generateEnemies( Scene* scene)
 {
 	scene->gameObjects.push_back( new EnemyObject("enemy1", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
@@ -107,5 +109,6 @@ void EnemyObject::generateEnemies( Scene* scene)
 	
 	EnemyObject* boss = new EnemyObject("enemy5", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), BOSS_LOCATION);
 	boss->setScale( Point3f( 0.25, 0.25, 0.25));
+	boss->setExplodeRadius( 1.5);
 	scene->gameObjects.push_back( boss);
 }

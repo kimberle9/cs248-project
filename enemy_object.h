@@ -11,11 +11,11 @@
 
 #define ENEMY_SCALE Point3f( .1, .1, .1)
 
-#define ENEMY_1_LOCATION Point3f( 7.0, 2.5, -11.0)
-#define ENEMY_2_LOCATION Point3f( -5.0, 4.3, 6.0)
-#define ENEMY_3_LOCATION Point3f( -8.0, 9.0, -11.25)
+#define ENEMY_1_LOCATION Point3f( 7.0, 2.6, -11.0)
+#define ENEMY_2_LOCATION Point3f( -5.0, 4.4, 6.0)
+#define ENEMY_3_LOCATION Point3f( -8.0, 9.1, -11.25)
 #define ENEMY_4_LOCATION Point3f( -7.0, 12.88, -11.55)
-#define BOSS_LOCATION Point3f( -6.5, 18.0, -9.5)
+#define BOSS_LOCATION Point3f( -6.5, 18.5, -9.5)
 
 class EnemyObject: public GameObject
 {
@@ -30,11 +30,14 @@ class EnemyObject: public GameObject
 		void collisionHandler(GameObject *gameObject, Collision collision);
 		
 		static void generateEnemies( Scene* scene);
+		
+		void setExplodeRadius( float _explodeRadius);
 
 	private:
 	
 		Point3f direction;
 		float speed;
+		float explodeRadius;
 		
 		void disable();
 		void explode();

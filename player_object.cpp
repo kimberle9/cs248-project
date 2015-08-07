@@ -21,6 +21,7 @@ void PlayerObject::init()
 {
 	lives = 3;
 	coins = 0;
+	setRotation( 0, Point3f( 0.0, 1.0, 0.0));
 	resetPlayer();
 }
 
@@ -112,16 +113,6 @@ Point3f PlayerObject::getDirection()
 	return direction;
 }
 
-float PlayerObject::distanceFrom( GameObject* otherObject)
-{
-	return 0;
-}
-
-void PlayerObject::attack( GameObject* otherObject)
-{
-	return;
-}
-
 void PlayerObject::turn( float degrees)
 {
 	//update the directionAngle
@@ -134,6 +125,8 @@ void PlayerObject::turn( float degrees)
 	{
 		directionAngle += 360;
 	}
+	
+	rotate( 57.295779513 * degrees);
 	
 	//now update the direction vector
 	direction.x = sin( directionAngle);
