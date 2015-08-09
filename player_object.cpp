@@ -106,7 +106,7 @@ void PlayerObject::turn( float degrees)
 }
 
 void PlayerObject::collisionHandler(GameObject *gameObject, Collision collision) {
-	if (collision.target.bbox.max.y <= collision.source.bbox.min.y) {
+	if (collision.target.bbox.max.y <= t.y) {
 		direction.y = 0;
 	}
 }
