@@ -55,7 +55,7 @@ void CoinObject::draw()
 		//glMatrixMode( GL_MODELVIEW);
 		//glLoadIdentity();
 		//std::cout << coins[i].location.y << std::endl;
-		glTranslatef( coins[i].location.x, coins[i].location.x, coins[i].location.x);
+		glTranslatef( coins[i].location.x, coins[i].location.y, coins[i].location.z);
 		glScalef(s.x, s.y, s.z);
 		glRotatef( coins[i].rotation, ROTATION_AXIS.x, ROTATION_AXIS.y, ROTATION_AXIS.z);
 

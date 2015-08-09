@@ -6,9 +6,9 @@
 #define INITIAL_DIRECTION 91
 
 #define COIN_SCALE Point3f( .1, .1, .1)
-#define COIN_1_LOCATION Point3f( 7.0, 1.2, 8.0)
-#define COIN_2_LOCATION Point3f( 9.0, 1.2, 8.0)
-#define COIN_3_LOCATION Point3f( 11.0, 1.2, 8.0)
+#define COIN_1_LOCATION Point3f( 6.0, 1.2, 6.0)
+#define COIN_2_LOCATION Point3f( 8.0, 1.2, 6.0)
+#define COIN_3_LOCATION Point3f( 10.0, 1.2, 6.0)
 #define ROTATION_AXIS Point3f( 0.0, 1.0, 0.0)
 #define COIN_ROTATION -0.25
 
