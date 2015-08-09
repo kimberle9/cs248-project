@@ -1,12 +1,13 @@
 #include "player_object.h"
 
-PlayerObject::PlayerObject(const std::string& meshFilename, RGBColor _color) :
-	GameObject( meshFilename, _color) 
+PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) :
+	GameObject(_name, meshFilePath, _color) 
 {
 	init();
 }
 
-PlayerObject::PlayerObject(GLuint texId, const std::string& meshFilename, const std::string& textureImageFilename) : GameObject( texId, meshFilename, textureImageFilename) 
+PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId) :
+  GameObject(_name, meshFilePath, textureImageFilename, texId) 
 { 
 	init();
 }
@@ -15,26 +16,11 @@ void PlayerObject::init()
 {
 	t = INITIAL_TRANSLATION;
 	directionAngle = INITIAL_DIRECTION;
+	setScale(PLAYER_SCALE);
 	turn(0);
 }
 
-void PlayerObject::draw()
-{
-	glPushMatrix();
-
-	glColor3f(color.r, color.g, color.b);
-
-    glTranslatef(t.x, t.y, t.z);
-    glScalef( 0.1, 0.1, 0.1);
-
-	if (texture != NULL) { texture->bind(); }
-	mesh.draw();
-	if (texture != NULL) { texture->unBind(); }
-
-	glPopMatrix();
-}
-
-void PlayerObject::animate()
+void PlayerObject::update()
 {
 	t.x = t.x + (speed * direction.x);
 	t.z = t.z + (speed * direction.z);
@@ -42,14 +28,7 @@ void PlayerObject::animate()
 	speed = 0; //if speed were set, reset it to 0
 	
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
-	float ground = 1.2;
-	if ( t.y < ground )
-	{
-		t.y = ground;
-		direction.y = 0;
-	}
-	else
-	{
+	if (direction.y != 0) {
 		direction.y += GRAVITY;
 		if ( direction.y < MAX_Y_SPEED )
 		{
@@ -124,4 +103,10 @@ void PlayerObject::turn( float degrees)
 	//y is updated as a part of jump/animate.
 
 	return;
+}
+
+void PlayerObject::collisionHandler(GameObject *gameObject, Collision collision) {
+	if (collision.target.bbox.max.y <= collision.source.bbox.min.y) {
+		direction.y = 0;
+	}
 }

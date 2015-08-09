@@ -3,7 +3,7 @@
 T1 := game
 
 # list files to compile and link together
-FILES1   := main simple_image simple_texture stb mesh game_object player_object
+FILES1   := main simple_image simple_texture stb mesh game_object player_object scene
 
 #################################################################
 

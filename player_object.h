@@ -3,25 +3,27 @@
 
 #include "game_object.h"
 
-#define GRAVITY -0.02
-#define JUMP_VELOCITY 0.6
-#define SPEED 0.2
-#define LEFT_TURN .05
-#define RIGHT_TURN -.05
-#define MAX_Y_SPEED -0.15
-#define INITIAL_TRANSLATION Point3f(7.0, 2.0, 8.0);
-#define INITIAL_DIRECTION 91;
+#define GRAVITY -0.17
+#define JUMP_VELOCITY .9
+#define SPEED 0.95
+#define LEFT_TURN .23
+#define RIGHT_TURN -.23
+#define MAX_Y_SPEED -0.2
+
+#define INITIAL_TRANSLATION Point3f(7.0, 1.2, 8.0)
+#define INITIAL_DIRECTION 91
+
+#define PLAYER_SCALE Point3f(.1, .1, .1)
 
 class PlayerObject: public GameObject
 {
 	public:
 	
-		PlayerObject(const std::string& meshFilename, RGBColor color);
-		PlayerObject(GLuint texId, const std::string& meshFilename, const std::string& textureImageFilename);
+		PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color);
+		PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId);
 
 		void init();
-		void draw();
-		void animate(); //moves the character 1 unit in the forward direction	
+		void update(); //moves the character 1 unit in the forward direction
 		void jump(); //jump the character
 		void step( float direction);
 		void turnLeft(); //turn character/camera to the left
@@ -33,7 +35,8 @@ class PlayerObject: public GameObject
 		float distanceFrom( GameObject* otherObject);
 		void attack( GameObject* otherObject);
 	
-	
+		void collisionHandler(GameObject *gameObject, Collision collision);
+
 	private:
 	
 		Point3f rotAxisVector; //around which axis we spin the object
@@ -49,4 +52,4 @@ class PlayerObject: public GameObject
 
 };
 
-#endif //__ANIMATE_OBJECT_H__
+#endif //__PLAYER_OBJECT_H__

@@ -14,8 +14,10 @@
 #include "mesh.h"
 #include "game_object.h"
 #include "player_object.h"
+#include "scene.h"
 
-std::vector<GameObject *> gameObjects;
+Scene scene;
+
 PlayerObject *player;
 GameObject *environment;
 
@@ -23,6 +25,8 @@ Point3f cameraNormal = Point3f(0.0, 1.0, 0.0);
 
 Point3f cameraPositionOffset = Point3f(0.0, 0.0, 0.0);
 Point3f cameraAimOffset = Point3f(0.0, 0.0, 0.0);
+
+GLuint textures[1];
 
 Point3f getCameraPosition() {
     Point3f playerPosition = player->getPosition();
@@ -54,24 +58,11 @@ void updateCamera() {
 
 void displayCallback() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glLoadIdentity();
-    
-    for (GameObject *gameObject: gameObjects) {
-    	gameObject->animate();
-    }
 
+    scene.update();
     updateCamera();
-    
-    for (GameObject *gameObject: gameObjects) {
-        gameObject->draw();
-    }
-
-    // if (player->intersects(environment)) {
-    //     player->color = RGBColor(1.0, 0.0, 0.0);
-    // } else {
-    //     player->color = RGBColor(0.0, 1.0, 0.0);
-    // }
+    scene.draw();
 
     glutSwapBuffers();
 }
@@ -88,20 +79,20 @@ void reshapeCallback(int w, int h) {
 }
 
 void setup() {
-    GLuint textures[1];
     glGenTextures(1, textures);
 
-    player = new PlayerObject("objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
-    environment = new GameObject(textures[0], "environments/textured_environment.obj", "textures/Environment_texture.png");
-    gameObjects.push_back(environment);
-    gameObjects.push_back(player);
+    player = new PlayerObject("player", "objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
+    environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
+    
+    scene.gameObjects.push_back(environment);
+    scene.gameObjects.push_back(player);
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);
     glEnable( GL_DEPTH_TEST);
 }
 
-void printGameCoords() {
+void printCameraCoords() {
     Point3f cameraPosition = getCameraPosition();
     Point3f cameraAim = getCameraAim();
 
@@ -110,8 +101,7 @@ void printGameCoords() {
     std::cout << "Camera normal: (" << cameraNormal.x << ", " << cameraNormal.y << ", " << cameraNormal.z << ")" << std::endl;
 }
 
-void specialKeyCallback( int key, int x, int y)
-{
+void specialKeyCallback( int key, int x, int y) {
 	switch( key)
 	{
 		case GLUT_KEY_UP: { player->step( 1.0); break; }
@@ -129,18 +119,18 @@ void specialKeyCallback( int key, int x, int y)
 void keyCallback(unsigned char key, int x, int y) {
     switch(key) {
         case 'q': { exit(0); break; }
-        case '1': { cameraPositionOffset.x += .5; printGameCoords(); break; }
-        case '2': { cameraPositionOffset.x -= .5; printGameCoords(); break; }
-        case '3': { cameraPositionOffset.y += .5; printGameCoords(); break; }
-        case '4': { cameraPositionOffset.y -= .5; printGameCoords(); break; }
-        case '5': { cameraPositionOffset.z += .5; printGameCoords(); break; }
-        case '6': { cameraPositionOffset.z -= .5; printGameCoords(); break; }
-        case '7': { cameraAimOffset.x += .5; printGameCoords(); break; }
-        case '8': { cameraAimOffset.x -= .5; printGameCoords(); break; }
-        case '9': { cameraAimOffset.y += .5; printGameCoords(); break; }
-        case '0': { cameraAimOffset.y -= .5; printGameCoords(); break; }
-        case '-': { cameraAimOffset.z += .5; printGameCoords(); break; }
-        case '=': { cameraAimOffset.z -= .5; printGameCoords(); break; }
+        case '1': { cameraPositionOffset.x += .5; printCameraCoords(); break; }
+        case '2': { cameraPositionOffset.x -= .5; printCameraCoords(); break; }
+        case '3': { cameraPositionOffset.y += .5; printCameraCoords(); break; }
+        case '4': { cameraPositionOffset.y -= .5; printCameraCoords(); break; }
+        case '5': { cameraPositionOffset.z += .5; printCameraCoords(); break; }
+        case '6': { cameraPositionOffset.z -= .5; printCameraCoords(); break; }
+        case '7': { cameraAimOffset.x += .5; printCameraCoords(); break; }
+        case '8': { cameraAimOffset.x -= .5; printCameraCoords(); break; }
+        case '9': { cameraAimOffset.y += .5; printCameraCoords(); break; }
+        case '0': { cameraAimOffset.y -= .5; printCameraCoords(); break; }
+        case '-': { cameraAimOffset.z += .5; printCameraCoords(); break; }
+        case '=': { cameraAimOffset.z -= .5; printCameraCoords(); break; }
         case 'r': { 
             cameraPositionOffset = Point3f(0.0, 0.0, 0.0);
             cameraAimOffset = Point3f(0.0, 0.0, 0.0);
