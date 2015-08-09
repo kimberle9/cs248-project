@@ -3,10 +3,19 @@
 PlayerObject::PlayerObject(const std::string& meshFilename, RGBColor _color) :
 	GameObject( meshFilename, _color) 
 {
+	init();
 }
 
 PlayerObject::PlayerObject(GLuint texId, const std::string& meshFilename, const std::string& textureImageFilename) : GameObject( texId, meshFilename, textureImageFilename) 
 { 
+	init();
+}
+
+void PlayerObject::init() 
+{
+	t = INITIAL_TRANSLATION;
+	directionAngle = INITIAL_DIRECTION;
+	turn(0);
 }
 
 void PlayerObject::draw()
@@ -33,7 +42,7 @@ void PlayerObject::animate()
 	speed = 0; //if speed were set, reset it to 0
 	
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
-	float ground = 0;
+	float ground = 1.2;
 	if ( t.y < ground )
 	{
 		t.y = ground;
@@ -111,6 +120,7 @@ void PlayerObject::turn( float degrees)
 	//now update the direction vector
 	direction.x = sin( directionAngle);
 	direction.z = cos( directionAngle);
+
 	//y is updated as a part of jump/animate.
 
 	return;

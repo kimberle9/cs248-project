@@ -9,6 +9,8 @@
 #define LEFT_TURN .05
 #define RIGHT_TURN -.05
 #define MAX_Y_SPEED -0.15
+#define INITIAL_TRANSLATION Point3f(7.0, 2.0, 8.0);
+#define INITIAL_DIRECTION 91;
 
 class PlayerObject: public GameObject
 {
@@ -16,7 +18,8 @@ class PlayerObject: public GameObject
 	
 		PlayerObject(const std::string& meshFilename, RGBColor color);
 		PlayerObject(GLuint texId, const std::string& meshFilename, const std::string& textureImageFilename);
-	
+
+		void init();
 		void draw();
 		void animate(); //moves the character 1 unit in the forward direction	
 		void jump(); //jump the character

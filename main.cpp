@@ -19,22 +19,31 @@ std::vector<GameObject *> gameObjects;
 PlayerObject *player;
 GameObject *environment;
 
-Point3f cameraPosition = Point3f(50.0, 8.0, 1);
-Point3f cameraAim = Point3f(-31.0, 6.0, -4.5);
 Point3f cameraNormal = Point3f(0.0, 1.0, 0.0);
 
-void updateCamera()
-{
-	Point3f playerPosition = player->getPosition();
-	Point3f playerDirection = player->getDirection();
-	
-	cameraPosition.x = playerPosition.x - (playerDirection.x * 20);
-	cameraPosition.z = playerPosition.z - (playerDirection.z * 20);
-	cameraPosition.y = playerPosition.y + 5;
-	
-	cameraAim.x = playerPosition.x;
-	cameraAim.z = playerPosition.z;
-	cameraAim.y = playerPosition.y;
+Point3f cameraPositionOffset = Point3f(0.0, 0.0, 0.0);
+Point3f cameraAimOffset = Point3f(0.0, 0.0, 0.0);
+
+Point3f getCameraPosition() {
+    Point3f playerPosition = player->getPosition();
+    Point3f playerDirection = player->getDirection();
+
+    Point3f cameraPosition = Point3f(
+        playerPosition.x - (playerDirection.x * 20),
+        playerPosition.y + 13,
+        playerPosition.z - (playerDirection.z * 20)
+    );
+
+    return cameraPositionOffset + cameraPosition;
+}
+
+Point3f getCameraAim() {
+    return cameraAimOffset + player->getPosition();
+}
+
+void updateCamera() {
+    Point3f cameraPosition = getCameraPosition();
+    Point3f cameraAim = getCameraAim();
 
 	gluLookAt(
         cameraPosition.x, cameraPosition.y, cameraPosition.z, 
@@ -78,7 +87,6 @@ void reshapeCallback(int w, int h) {
     glLoadIdentity();
 }
 
-
 void setup() {
     GLuint textures[1];
     glGenTextures(1, textures);
@@ -87,17 +95,19 @@ void setup() {
     environment = new GameObject(textures[0], "environments/textured_environment.obj", "textures/Environment_texture.png");
     gameObjects.push_back(environment);
     gameObjects.push_back(player);
-    // gameObjects.push_back(new GameObject(textures[0], "objects/mushroom.obj", "objects/mushroom.png"));
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);
     glEnable( GL_DEPTH_TEST);
 }
 
-void printCameraCoords() {
+void printGameCoords() {
+    Point3f cameraPosition = getCameraPosition();
+    Point3f cameraAim = getCameraAim();
+
     std::cout << "Camera position: (" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")" << std::endl;
     std::cout << "Camera aim: (" << cameraAim.x << ", " << cameraAim.y << ", " << cameraAim.z << ")" << std::endl;
-    std::cout << "Camera normal: (" << cameraNormal.x << ", " << cameraNormal.y << ", " << cameraNormal.z << ")\n" << std::endl;
+    std::cout << "Camera normal: (" << cameraNormal.x << ", " << cameraNormal.y << ", " << cameraNormal.z << ")" << std::endl;
 }
 
 void specialKeyCallback( int key, int x, int y)
@@ -119,25 +129,24 @@ void specialKeyCallback( int key, int x, int y)
 void keyCallback(unsigned char key, int x, int y) {
     switch(key) {
         case 'q': { exit(0); break; }
-        case '1': { cameraPosition.x += .5; printCameraCoords(); break; }
-        case '2': { cameraPosition.x -= .5; printCameraCoords(); break; }
-        case '3': { cameraPosition.y += .5; printCameraCoords(); break; }
-        case '4': { cameraPosition.y -= .5; printCameraCoords(); break; }
-        case '5': { cameraPosition.z += .5; printCameraCoords(); break; }
-        case '6': { cameraPosition.z -= .5; printCameraCoords(); break; }
-        case '7': { cameraAim.x += .5; printCameraCoords(); break; }
-        case '8': { cameraAim.x -= .5; printCameraCoords(); break; }
-        case '9': { cameraAim.y += .5; printCameraCoords(); break; }
-        case '0': { cameraAim.y -= .5; printCameraCoords(); break; }
-        case '-': { cameraAim.z += .5; printCameraCoords(); break; }
-        case '=': { cameraAim.z -= .5; printCameraCoords(); break; }
-        case 'f': { player->translateX(.5); break; }
-        case 's': { player->translateX(-.5); break; }
-        case 'e': { player->translateY(.5); break; }
-        case 'd': { player->translateY(-.5); break; }
-        case 'x': { player->translateZ(.5); break; }
-        case 'c': { player->translateZ(-.5); break; }
-        case 'j': { player->jump(); break; }
+        case '1': { cameraPositionOffset.x += .5; printGameCoords(); break; }
+        case '2': { cameraPositionOffset.x -= .5; printGameCoords(); break; }
+        case '3': { cameraPositionOffset.y += .5; printGameCoords(); break; }
+        case '4': { cameraPositionOffset.y -= .5; printGameCoords(); break; }
+        case '5': { cameraPositionOffset.z += .5; printGameCoords(); break; }
+        case '6': { cameraPositionOffset.z -= .5; printGameCoords(); break; }
+        case '7': { cameraAimOffset.x += .5; printGameCoords(); break; }
+        case '8': { cameraAimOffset.x -= .5; printGameCoords(); break; }
+        case '9': { cameraAimOffset.y += .5; printGameCoords(); break; }
+        case '0': { cameraAimOffset.y -= .5; printGameCoords(); break; }
+        case '-': { cameraAimOffset.z += .5; printGameCoords(); break; }
+        case '=': { cameraAimOffset.z -= .5; printGameCoords(); break; }
+        case 'r': { 
+            cameraPositionOffset = Point3f(0.0, 0.0, 0.0);
+            cameraAimOffset = Point3f(0.0, 0.0, 0.0);
+            break;
+        }
+        case 'j': case ' ': { player->jump(); break; }
         default: { break; }
     }
 
