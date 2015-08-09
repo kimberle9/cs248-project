@@ -46,9 +46,9 @@ public:
     // whether mipmaps should be generated.
     //
     SimpleTexture(GLuint texId, const SimpleImage* image,
-              ImageOptions options = kGenerateMipmaps);
+              ImageOptions options = kNone);
 	SimpleTexture(GLuint texId, const float* pixels, int width, int height,
-		ImageOptions options = kGenerateMipmaps);
+		ImageOptions options = kNone);
 
     //
     // Create an "empty" SimpleTexture with no image data. You will need
@@ -68,9 +68,9 @@ public:
     // to specify whether mipmaps should be generated.
     //
     void loadImageData(GLuint texId, const SimpleImage* image,
-                       ImageOptions options = kGenerateMipmaps);
+                       ImageOptions options = kNone);
 	void loadImageData(GLuint texId, const float* pixels, int width, int height,
-		ImageOptions options = kGenerateMipmaps);
+		ImageOptions options = kNone);
 
     //
     // Bind this texture for use in subsequent OpenGL drawing.

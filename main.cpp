@@ -57,11 +57,11 @@ void displayCallback() {
         gameObject->draw();
     }
 
-    if (player->intersects(environment)) {
-        player->color = RGBColor(1.0, 0.0, 0.0);
-    } else {
-        player->color = RGBColor(0.0, 1.0, 0.0);
-    }
+    // if (player->intersects(environment)) {
+    //     player->color = RGBColor(1.0, 0.0, 0.0);
+    // } else {
+    //     player->color = RGBColor(0.0, 1.0, 0.0);
+    // }
 
     glutSwapBuffers();
 }
@@ -83,7 +83,7 @@ void setup() {
     glGenTextures(1, textures);
 
     player = new PlayerObject("objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
-    environment = new GameObject("environments/environment.obj", RGBColor(0.8, 0.5, 0.2));
+    environment = new GameObject(textures[0], "environments/textured_environment.obj", "textures/Environment_texture.png");
     gameObjects.push_back(environment);
     gameObjects.push_back(player);
     // gameObjects.push_back(new GameObject(textures[0], "objects/mushroom.obj", "objects/mushroom.png"));
@@ -145,7 +145,7 @@ void keyCallback(unsigned char key, int x, int y) {
 int main(int argc, char** argv) {
     // Initialize GLUT.
     glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowPosition(20, 20);
     glutInitWindowSize(1280, 960);
     glutCreateWindow("Mario Game");

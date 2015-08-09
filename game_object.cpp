@@ -16,7 +16,7 @@ GameObject::GameObject(const std::string& meshFilename, RGBColor _color) {
 GameObject::GameObject(GLuint texId, const std::string& meshFilename, const std::string& textureImageFilename) { 
 	mesh.loadData(meshFilename);
 	SimpleImage img = SimpleImage(textureImageFilename);
-	texture = new SimpleTexture(texId, &img);
+	texture = new SimpleTexture(texId, &img, SimpleTexture::kNone);
 	color = RGBColor();
 	t = Point3f();
 }

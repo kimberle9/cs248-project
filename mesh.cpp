@@ -60,7 +60,7 @@ bool Mesh::loadData(const std::string& filename) {
 			    	    } else {
 							faces.push_back(Triangle3f(
 								vertices[f1.x - 1], vertices[f2.x - 1], vertices[f3.x - 1],
-								vertices[f1.y - 1], vertices[f2.y - 1], vertices[f3.y - 1]
+								text_coords[f1.y - 1], text_coords[f2.y - 1], text_coords[f3.y - 1]
 							));
 			    	    }
 			    	}
@@ -96,17 +96,17 @@ void Mesh::draw() {
         glNormal3f(normal.x, normal.y, normal.z);
 
         if (face.t_a.is_initialized()) {
-    	    glTexCoord2f(face.t_a->x, face.t_a->y);
+    	    glTexCoord2f(face.t_a->x, 1 - face.t_a->y);
         }
         glVertex3f(face.a.x, face.a.y, face.a.z);
 
         if (face.t_b.is_initialized()) {
-    	    glTexCoord2f(face.t_b->x, face.t_b->y);
+    	    glTexCoord2f(face.t_b->x, 1 - face.t_b->y);
         }
         glVertex3f(face.b.x, face.b.y, face.b.z);
 
         if (face.t_c.is_initialized()) {
-    	    glTexCoord2f(face.t_c->x, face.t_c->y);
+    	    glTexCoord2f(face.t_c->x, 1 -face.t_c->y);
         }
         glVertex3f(face.c.x, face.c.y, face.c.z);
         

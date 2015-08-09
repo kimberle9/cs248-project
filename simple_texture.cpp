@@ -22,10 +22,12 @@ void SimpleTexture::loadImageData(GLuint texId, const float* pixels, int width, 
 
     glBindTexture(GL_TEXTURE_2D, mTexId);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
     if (options == kGenerateMipmaps) {
 		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, mWidth, mHeight, GL_RGB, GL_UNSIGNED_BYTE, pixels);
