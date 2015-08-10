@@ -21,6 +21,7 @@ GameObject::GameObject(const std::string& _name, const std::string& meshFilePath
 
 void GameObject::init(const std::string& _name,  const std::string& meshFilePath) {
 	s = Point3f(1.0, 1.0, 1.0);
+	rotationAngle = 0;
 	name = _name;
 	mesh.loadData(meshFilePath);
 }
@@ -30,7 +31,10 @@ void GameObject::draw() {
 
 	glTranslatef(t.x, t.y, t.z);
 	glScalef(s.x, s.y, s.z);
-	glRotatef(rotationAngle, r.x, r.y, r.z);
+
+	if (rotationAngle != 0) {
+		glRotatef(rotationAngle, r.x, r.y, r.z);
+	}
 
 	if (texture != NULL) { texture->bind(); }
 
