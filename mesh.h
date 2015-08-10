@@ -29,7 +29,7 @@ struct Point3f {
 	}
 
 	// like '+' except mutates the current object rather than creating a new one
-	void addMutate(Point3f p) { 
+	void add(Point3f p) { 
 		x += p.x;
 		y += p.y;
 		z += p.z;
@@ -57,10 +57,13 @@ struct Point3f {
 	}
 };
 
-
 struct BBox3f {
 	Point3f min;
 	Point3f max;
+
+	BBox3f() { min = Point3f(); max = Point3f(); }
+
+	BBox3f(Point3f _min, Point3f _max) { min = _min; max = _max; }
 
 	bool intersects(BBox3f o) {
 		if (min.x > o.max.x || max.x < o.min.x) {
@@ -74,7 +77,26 @@ struct BBox3f {
 		}
 		return true;
 	}
+
+	void partition(std::vector<BBox3f> &bboxes, int numX, int numY, int numZ) {
+		Point3f size = max - min;
+		float incrX = size.x / (float)numX;
+		float incrY = size.y / (float)numY;
+		float incrZ = size.z / (float)numZ;
+		for (float currX = min.x; currX < max.x; currX += incrX) {
+			for (float currY = min.y; currY < max.y; currY += incrY) {
+				for (float currZ = min.z; currZ < max.z; currZ += incrZ) {
+					Point3f subMin = Point3f(currX, currY, currZ);
+					Point3f subMax = Point3f(currX + incrX, currY + incrY, currZ + incrZ);
+					bboxes.push_back(BBox3f(subMin, subMax));
+				}
+			}
+		}
+	}
 };
+
+bool operator<(const Point3f& l, const Point3f& r);
+bool operator<(const BBox3f& l, const BBox3f& r);
 
 struct Triangle3f {
 private:
@@ -110,10 +132,10 @@ public:
 	}
 
 	// like '+' except mutates the current object rather than creating a new one
-	void addMutate(Point3f p) { 
-		a.addMutate(p);
-		b.addMutate(p);
-		c.addMutate(p);
+	void add(Point3f p) { 
+		a.add(p);
+		b.add(p);
+		c.add(p);
 	}
 
 	Point3f normal() { 

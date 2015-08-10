@@ -113,3 +113,11 @@ void Mesh::draw() {
         glEnd();
     }
 }
+
+bool operator<(const Point3f& l, const Point3f& r) {
+   return std::tie(l.x, l.y, l.z) < std::tie(r.x, r.y, r.z);
+}
+
+bool operator<(const BBox3f& l, const BBox3f& r) {
+   return std::tie(l.min, l.max) < std::tie(r.min, r.max);
+}

@@ -1,12 +1,8 @@
 #include "game_object.h"
 
-#include <libgen.h>
-
 #include "findGLUT.h"
 #include "simple_image.h"
 #include "simple_texture.h"
-
-#include "triangle_triangle_intersection.h"
 
 GameObject::GameObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) {
 	init(_name, meshFilePath);
@@ -24,6 +20,23 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 	rotationAngle = 0;
 	name = _name;
 	mesh.loadData(meshFilePath);
+}
+
+bool GameObject::update() {
+	lastT = t;
+	lastS = s;
+	lastR = r; 
+	lastRotationAngle = rotationAngle;
+	updateHandler();
+	// TODO: take into account changes in s, r, and rotationAngle
+	return !(t == lastT);
+}
+
+void GameObject::revertLastUpdate() {
+	t = lastT;
+	s = lastS;
+	r = lastR; 
+	rotationAngle = lastRotationAngle;
 }
 
 void GameObject::draw() {
@@ -52,30 +65,14 @@ void GameObject::setTranslation( Point3f _t) { t = _t; }
 void GameObject::setRotation(float _angle, Point3f _r) { rotationAngle = _angle; r = _r; }
 void GameObject::rotate(float _angle) { rotationAngle += _angle; }
 
-Point3f GameObject::getPosition()
-{
+Point3f GameObject::getPosition() {
 	return t;
 }
 
-boost::optional<Collision> GameObject::getCollision(GameObject *o) {
-	for (auto &face : mesh.faces) {
-		Triangle3f faceT = face * s;
-		faceT.addMutate(t);
-		for (auto &oFace : o->mesh.faces) {
-			Triangle3f oFaceT = oFace * o->s;
-			oFaceT.addMutate(o->t);
-			if (faceT.getBBox().intersects(oFaceT.getBBox())) {
-				return Collision(faceT, oFaceT);
-			}
-		}
-	}
-
-    return boost::none;
-}
-
-void GameObject::update() {
+void GameObject::updateHandler() {
 	return;
 }
 
 void GameObject::collisionHandler(GameObject *gameObject, Collision collision) {
+	return;
 }

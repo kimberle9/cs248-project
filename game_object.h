@@ -2,6 +2,8 @@
 #define __GAME_OBJECT_H__
 
 #include <boost/optional.hpp>
+#include <vector>
+#include <map>
 
 #include "findGLUT.h"
 #include "mesh.h"
@@ -15,21 +17,47 @@ struct Collision {
 };
 
 class GameObject {
+private:
+	// the position of this object before the last update (used to revert on collision)
+	Point3f lastT;
+	Point3f lastS;
+	Point3f lastR; float lastRotationAngle;
+
 protected:
-	Mesh mesh;
 	SimpleTexture *texture = NULL;
 
+	// gets called before every draw call of this object.
+	// should be overriden by sub-classes to update object state (position, rotation, etc).
+	virtual void updateHandler(void);
+
 public:
+	Mesh mesh;
 	Point3f t; // translation vector
 	Point3f s; // scale vector
 	Point3f r; float rotationAngle; // rotation axis and angle
 	RGBColor color;
 	std::string name;
-	
-	GameObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color);
-	GameObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId);
-	void init(const std::string& _name, const std::string& meshFilePath); // common initialization code
-	
+	std::map<BBox3f, std::vector<Triangle3f> *> partitionToTriangles;
+
+	GameObject(
+		const std::string& _name, 
+		const std::string& meshFilePath, 
+		RGBColor _color
+	);
+
+	GameObject(
+		const std::string& _name,
+		const std::string& meshFilePath,
+		const std::string& textureImageFilename,
+		GLuint texId
+	);
+
+	// common initialization code
+	void init(
+		const std::string& _name, 
+		const std::string& meshFilePath
+	); 
+
 	void setScale(Point3f s);
 	void setTranslation(Point3f _t);
 	void setRotation(float _angle, Point3f _r);
@@ -37,16 +65,25 @@ public:
 
 	Point3f getPosition();
 
-	boost::optional<Collision> getCollision(GameObject *o);
+	// gets called during every OpenGL draw call.
+	// this method should not be overriden by sub-classes (override updateHandler instead)
+	// returns whether the objects position changed.
+	bool update(void);
 
-	virtual void update( void);
-	virtual void draw( void);
+	// gets called during every OpenGL draw call after GameObject::update.
+	// this method should not be overriden by sub-classes (use setTranslation, setRotation, etc, instead)
+	void draw(void);
 
-	// this function gets called when this object collides with another.
-	// params:
+	// gets called by the scene when this object's last update caused it to
+	// collide with another. the translation, scale, and rotation vectors
+	// are reverted to their state prior to the last update
+	void revertLastUpdate(void);
+
+	// gets called when this object collides with another. 
+	// can be overriden by sub-classes. params:
 	//   1. gameObject: the colliding object
 	//   2. collision:  struct containing the specific triangles that intersected
-	virtual void collisionHandler(GameObject *gameObject, Collision collision); 
+	virtual void collisionHandler(GameObject *gameObject, Collision collision);
 };
 
 #endif // __GAME_OBJECT_H__

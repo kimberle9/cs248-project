@@ -20,7 +20,7 @@ void PlayerObject::init()
 	turn(0);
 }
 
-void PlayerObject::update()
+void PlayerObject::updateHandler()
 {
 	t.x = t.x + (speed * direction.x);
 	t.z = t.z + (speed * direction.z);

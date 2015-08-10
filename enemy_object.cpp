@@ -25,7 +25,7 @@ void EnemyObject::init( Point3f location)
 	setTranslation( location);
 }
 
-void EnemyObject::update()
+void EnemyObject::updateHandler()
 {
 	float distance = distanceFrom( player);
 	Point3f playerLoc = player->getPosition();

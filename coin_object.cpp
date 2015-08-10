@@ -28,7 +28,7 @@ void CoinObject::rotateCoin()
 	}
 }
 
-void CoinObject::update()
+void CoinObject::updateHandler()
 {
 	rotateCoin();
 }
