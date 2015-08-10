@@ -15,41 +15,22 @@ CoinObject::CoinObject(const std::string& _name, const std::string& meshFilePath
 void CoinObject::init( Point3f location) 
 {
 	setScale( COIN_SCALE);
-	rotation = rand() % 360;
-	setTranslation( location);
+	setTranslation(location);
+	setRotation(rand() % 360, ROTATION_AXIS);
 }
 
 void CoinObject::rotateCoin()
 {
-	rotation += COIN_ROTATION;
+	rotate(COIN_ROTATION);
 	if (0 > rotation)
 	{
-		rotation += 360;
+		rotate(360);
 	}
 }
 
 void CoinObject::update()
 {
 	rotateCoin();
-}
-
-void CoinObject::draw()
-{
-	glPushMatrix();
-
-	glTranslatef( t.x, t.y, t.z);
-	glScalef(s.x, s.y, s.z);
-	glRotatef( rotation, ROTATION_AXIS.x, ROTATION_AXIS.y, ROTATION_AXIS.z);
-
-	if (texture != NULL) { texture->bind(); }
-
-	glColor3f(color.r, color.g, color.b);
-
-	mesh.draw();
-
-	if (texture != NULL) { texture->unBind(); }
-	
-	glPopMatrix();
 }
 
 float CoinObject::distanceFrom( GameObject* otherObject)

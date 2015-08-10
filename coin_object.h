@@ -31,7 +31,6 @@ class CoinObject: public GameObject
 
 		void init( Point3f location);
 		void update();
-		void draw();
 		
 		float distanceFrom( GameObject* otherObject);
 	

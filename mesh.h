@@ -28,6 +28,13 @@ struct Point3f {
 		return Point3f(x * o.x, y * o.y, z * o.z);
 	}
 
+	// like '+' except mutates the current object rather than creating a new one
+	void addMutate(Point3f p) { 
+		x += p.x;
+		y += p.y;
+		z += p.z;
+	}
+
     Point3f cross(Point3f o) {
     	return Point3f(y * o.z - o.y * z, o.x * z - x * o.z, x * o.y - o.x * y); 
     }
@@ -70,23 +77,28 @@ struct BBox3f {
 };
 
 struct Triangle3f {
+private:
+	BBox3f bbox;
+	bool hasBBoxCalc;
+
+public:
 	Point3f a, b, c;
 	boost::optional<Point3f> t_a, t_b, t_c;
-	BBox3f bbox;
 
 	Triangle3f() { 
 		a = Point3f(); b = Point3f(); c = Point3f(); 
 		t_a = boost::none; t_b = boost::none; t_c = boost::none;
+		hasBBoxCalc = false;
 	};
 	Triangle3f(Point3f _a, Point3f _b, Point3f _c) { 
 		a = _a; b = _b; c = _c; 
 		t_a = boost::none; t_b = boost::none; t_c = boost::none;
-		calcBbox();
+		hasBBoxCalc = false;
 	};
 	Triangle3f(Point3f _a, Point3f _b, Point3f _c, Point3f _t_a, Point3f _t_b, Point3f _t_c) { 
 		a = _a; b = _b; c = _c; 
 		t_a = _t_a; t_b = _t_b; t_c = _t_c;
-		calcBbox();
+		hasBBoxCalc = false;
 	};
 
     Triangle3f operator+(Point3f p) { 
@@ -97,21 +109,32 @@ struct Triangle3f {
 		return Triangle3f(a * o, b * o, c * o);
 	}
 
+	// like '+' except mutates the current object rather than creating a new one
+	void addMutate(Point3f p) { 
+		a.addMutate(p);
+		b.addMutate(p);
+		c.addMutate(p);
+	}
+
 	Point3f normal() { 
 		return (b - a).cross(c - a); 
 	}
 
-	void calcBbox() {
-		bbox.min = Point3f(
-			std::min(std::min(a.x, b.x), c.x), 
-			std::min(std::min(a.y, b.y), c.y), 
-			std::min(std::min(a.z, b.z), c.z)
-		);
-		bbox.max = Point3f(
-			std::max(std::max(a.x, b.x), c.x), 
-			std::max(std::max(a.y, b.y), c.y), 
-			std::max(std::max(a.z, b.z), c.z)
-		);
+	BBox3f getBBox() {
+		if (!hasBBoxCalc) {
+			bbox.min = Point3f(
+				std::min(std::min(a.x, b.x), c.x), 
+				std::min(std::min(a.y, b.y), c.y), 
+				std::min(std::min(a.z, b.z), c.z)
+			);
+			bbox.max = Point3f(
+				std::max(std::max(a.x, b.x), c.x), 
+				std::max(std::max(a.y, b.y), c.y), 
+				std::max(std::max(a.z, b.z), c.z)
+			);
+			hasBBoxCalc = true;
+		}
+		return bbox;
 	}
 };
 

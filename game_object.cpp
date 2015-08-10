@@ -28,8 +28,9 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 void GameObject::draw() {
 	glPushMatrix();
 
-    glTranslatef(t.x, t.y, t.z);
-    glScalef(s.x, s.y, s.z);
+	glTranslatef(t.x, t.y, t.z);
+	glScalef(s.x, s.y, s.z);
+	glRotatef(rotationAngle, r.x, r.y, r.z);
 
 	if (texture != NULL) { texture->bind(); }
 
@@ -44,6 +45,8 @@ void GameObject::draw() {
 
 void GameObject::setScale(Point3f _s) { s = _s; }
 void GameObject::setTranslation( Point3f _t) { t = _t; }
+void GameObject::setRotation(float _angle, Point3f _r) { rotationAngle = _angle; r = _r; }
+void GameObject::rotate(float _angle) { rotationAngle += _angle; }
 
 Point3f GameObject::getPosition()
 {
@@ -52,10 +55,12 @@ Point3f GameObject::getPosition()
 
 boost::optional<Collision> GameObject::getCollision(GameObject *o) {
 	for (auto &face : mesh.faces) {
-		Triangle3f faceT = (face * s + t);
+		Triangle3f faceT = face * s;
+		faceT.addMutate(t);
 		for (auto &oFace : o->mesh.faces) {
-			Triangle3f oFaceT = (oFace * o->s + o->t);
-			if (faceT.bbox.intersects(oFaceT.bbox)) {
+			Triangle3f oFaceT = oFace * o->s;
+			oFaceT.addMutate(o->t);
+			if (faceT.getBBox().intersects(oFaceT.getBBox())) {
 				return Collision(faceT, oFaceT);
 			}
 		}

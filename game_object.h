@@ -22,6 +22,7 @@ protected:
 public:
 	Point3f t; // translation vector
 	Point3f s; // scale vector
+	Point3f r; float rotationAngle; // rotation axis and angle
 	RGBColor color;
 	std::string name;
 	
@@ -30,7 +31,10 @@ public:
 	void init(const std::string& _name, const std::string& meshFilePath); // common initialization code
 	
 	void setScale(Point3f s);
-	void setTranslation( Point3f _t);
+	void setTranslation(Point3f _t);
+	void setRotation(float _angle, Point3f _r);
+	void rotate(float _angle);
+
 	Point3f getPosition();
 
 	boost::optional<Collision> getCollision(GameObject *o);
