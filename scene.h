@@ -6,8 +6,8 @@
 
 #include <vector>
 
-#define SCENE_BBOX BBox3f(Point3f(-30, -5, -30), Point3f(30, 30, 30))
-#define PARTITION_SIZE Point3f(5, 5, 5)
+#define SCENE_BBOX BBox3f(Point3f(-26, -2, -26), Point3f(26, 26, 26))
+#define PARTITION_SIZE Point3f(2, 2, 2)
 
 class Scene {
 public:
