@@ -3,6 +3,7 @@
 #include "findGLUT.h"
 #include "simple_image.h"
 #include "simple_texture.h"
+#include "mesh.h"
 
 GameObject::GameObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) {
 	init(_name, meshFilePath);
@@ -23,14 +24,44 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 	_destroyed = false;
 }
 
-bool GameObject::update() {
+void GameObject::recordLastPosition() {
 	lastT = t;
 	lastS = s;
 	lastR = r; 
 	lastRotationAngle = rotationAngle;
-	updateHandler();
+}
+
+bool GameObject::hasPositionChanged() {
 	// TODO: take into account changes in s, r, and rotationAngle
 	return !(t == lastT);
+}
+
+bool GameObject::update() {
+	recordLastPosition();
+	updateHandler();
+	return hasPositionChanged();
+}
+
+bool GameObject::updateX() {
+	recordLastPosition();
+	updateXHandler();
+	return hasPositionChanged();
+}
+
+bool GameObject::updateY() {
+	recordLastPosition();
+	updateYHandler();
+	return hasPositionChanged();
+}
+
+bool GameObject::updateZ() {
+	recordLastPosition();
+	updateZHandler();
+	return hasPositionChanged();
+}
+
+void GameObject::postUpdate() {
+	postUpdateHandler();
 }
 
 void GameObject::revertLastUpdate() {
@@ -109,11 +140,36 @@ void GameObject::setTranslation( Point3f _t) { t = _t; }
 void GameObject::setRotation(float _angle, Point3f _r) { rotationAngle = _angle; r = _r; }
 void GameObject::rotate(float _angle) { rotationAngle += _angle; }
 
+BBox3f GameObject::getBoundingBox() {
+	BBox3f bbox = mesh.bbox;
+	bbox.min = bbox.min + t;
+	bbox.max = bbox.max + t;
+	return bbox;
+}
+
 Point3f GameObject::getPosition() {
 	return t;
 }
 
 void GameObject::updateHandler() {
+	return;
+}
+
+void GameObject::updateXHandler() {
+	return;
+}
+
+
+void GameObject::updateYHandler() {
+	return;
+}
+
+
+void GameObject::updateZHandler() {
+	return;
+}
+
+void GameObject::postUpdateHandler() {
 	return;
 }
 

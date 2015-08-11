@@ -39,9 +39,9 @@ bool Mesh::loadData(const std::string& filename) {
 					char a[20], b[20], c[20];
 					sscanf(line.c_str(), "f %s %s %s", a, b, c);
 
-					Point3f f1 = parse_face_entry(a);
-					Point3f f2 = parse_face_entry(b);
-					Point3f f3 = parse_face_entry(c);
+					Point3f f1 = parseFaceEntry(a);
+					Point3f f2 = parseFaceEntry(b);
+					Point3f f3 = parseFaceEntry(c);
 
 					if (f1.x == -1 || f2.x == -1 || f3.x == -1) {
 				    	std::cerr << "Error parsing line in " << filename << ": " << line << std::endl;
@@ -70,10 +70,27 @@ bool Mesh::loadData(const std::string& filename) {
 	    	}
 	    }
 	}
+    
+    calcBoundingBox();
+
     return true;
 }
 
-Point3f Mesh::parse_face_entry(char *entry) {
+void Mesh::calcBoundingBox() {
+	bbox.min = Point3f(-1, -1, -1);
+	bbox.max = Point3f(-1, -1, -1);
+
+	for (Point3f p : vertices) {
+		if (bbox.min.x == -1 || p.x < bbox.min.x) { bbox.min.x = p.x; }
+		if (bbox.min.y == -1 || p.y < bbox.min.y) { bbox.min.x = p.y; }
+		if (bbox.min.z == -1 || p.z < bbox.min.z) { bbox.min.x = p.z; }
+		if (bbox.max.x == -1 || p.x > bbox.max.x) { bbox.max.x = p.x; }
+		if (bbox.max.y == -1 || p.y > bbox.max.y) { bbox.max.x = p.y; }
+		if (bbox.max.z == -1 || p.z > bbox.max.z) { bbox.max.x = p.z; }
+	}
+}
+
+Point3f Mesh::parseFaceEntry(char *entry) {
     int a, b, c;
     if (sscanf(entry, "%d/%d/%d", &a, &b, &c) == 3) {
     	return Point3f(a, b, -1);
