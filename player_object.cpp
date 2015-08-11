@@ -1,5 +1,7 @@
 #include "player_object.h"
+
 #include "coin_object.h"
+#include "scene.h"
 
 PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) :
 	GameObject(_name, meshFilePath, _color) 
@@ -17,24 +19,23 @@ void PlayerObject::init()
 {
 	lives = 3;
 	coins = 0;
+	resetPlayer();
+}
+
+void PlayerObject::resetPlayer() {
 	t = INITIAL_TRANSLATION;
 	directionAngle = INITIAL_DIRECTION;
 	setScale(PLAYER_SCALE);
+	direction.y = GRAVITY;
 	turn(0);
 }
 
-void PlayerObject::updateHandler()
-{
+void PlayerObject::updateXHandler() {
 	t.x = t.x + (speed * direction.x);
-	t.z = t.z + (speed * direction.z);
+}
 
-	speed = 0; //if speed were set, reset it to 0
-	
+void PlayerObject::updateYHandler() {
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
-	if (t.y < 0)
-	{
-		t.y = 0;
-	}
 	
 	if (direction.y != 0) {
 		direction.y += GRAVITY;
@@ -43,8 +44,19 @@ void PlayerObject::updateHandler()
 			direction.y = MAX_Y_SPEED;
 		}
 	}
+}
 
-	return;
+void PlayerObject::updateZHandler() {
+	t.z = t.z + (speed * direction.z);
+}
+
+void PlayerObject::postUpdateHandler()
+{
+	speed = 0; //if speed were set, reset it to 0
+
+	if (getBoundingBox().min.y < SCENE_BBOX.min.y - 1) {
+		die();
+	}
 }
 
 void PlayerObject::jump()
@@ -112,9 +124,7 @@ void PlayerObject::turn( float degrees)
 void PlayerObject::die()
 {
 	lives--;
-	setTranslation( INITIAL_TRANSLATION);
-	directionAngle = INITIAL_DIRECTION;
-	direction = Point3f( 0.0, 0.0, 0.0);
+	resetPlayer();
 	return;
 }
 
@@ -131,7 +141,4 @@ void PlayerObject::addCoin()
 }
 
 void PlayerObject::collisionHandler(GameObject *gameObject, Collision collision) {
-	if (collision.target.getBBox().max.y <= t.y) {
-		direction.y = 0;
-	}
 }

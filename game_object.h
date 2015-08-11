@@ -22,6 +22,8 @@ private:
 	Point3f lastT;
 	Point3f lastS;
 	Point3f lastR; float lastRotationAngle;
+	void recordLastPosition();
+	bool hasPositionChanged();
 
 protected:
 	SimpleTexture *texture = NULL;
@@ -30,6 +32,12 @@ protected:
 	// gets called before every draw call of this object.
 	// should be overriden by sub-classes to update object state (position, rotation, etc).
 	virtual void updateHandler(void);
+	virtual void updateXHandler(void);
+	virtual void updateYHandler(void);
+	virtual void updateZHandler(void);
+
+	// gets called after all objects have been updated but before the scene is re-drawn
+	virtual void postUpdateHandler(void);
 
 public:
 	Mesh mesh;
@@ -65,15 +73,22 @@ public:
 	void rotate(float _angle);
 
 	Point3f getPosition();
+	BBox3f getBoundingBox();
 	float distanceFrom( GameObject* otherObject);
 	float horizontalDistanceFrom( GameObject* otherObject);
 	float verticalDistanceFrom( GameObject* otherObject);
 	bool destroyed();
 
 	// gets called during every OpenGL draw call.
-	// this method should not be overriden by sub-classes (override updateHandler instead)
+	// these methods should not be overriden by sub-classes (override updateHandler's instead)
 	// returns whether the objects position changed.
 	bool update(void);
+	bool updateX(void);
+	bool updateY(void);
+	bool updateZ(void);
+
+	// gets called after all objects have been updated but before the scene is re-drawn
+	void postUpdate(void);
 
 	// gets called during every OpenGL draw call after GameObject::update.
 	// this method should not be overriden by sub-classes (use setTranslation, setRotation, etc, instead)

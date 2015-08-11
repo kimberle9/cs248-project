@@ -164,10 +164,12 @@ class Mesh {
 private:
 	std::vector<Point3f> vertices;
 	std::vector<Point3f> text_coords;
-	Point3f parse_face_entry(char *entry);
+	Point3f parseFaceEntry(char *entry);
+	void calcBoundingBox();
 
 public:
 	std::vector<Triangle3f> faces;
+	BBox3f bbox;
 	Mesh() { vertices = std::vector<Point3f>(); text_coords = std::vector<Point3f>(); faces = std::vector<Triangle3f>(); };
 	bool loadData(const std::string& filename);
 	void draw();

@@ -26,6 +26,8 @@ class PlayerObject: public GameObject
 		PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId);
 
 		void init();
+		void resetPlayer();
+
 		void jump(); //jump the character
 		void step( float direction);
 		void turnLeft(); //turn character/camera to the left
@@ -39,7 +41,11 @@ class PlayerObject: public GameObject
 		void die();
 		void addCoin();
 	
-		void updateHandler(); //moves the character 1 unit in the forward direction
+		void updateXHandler(); 
+		void updateYHandler(); 
+		void updateZHandler(); 
+		void postUpdateHandler();
+
 		void collisionHandler(GameObject *gameObject, Collision collision);
 
 	private:
