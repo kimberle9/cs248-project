@@ -46,6 +46,8 @@ void PlayerObject::update() {
 		}
 	}
 
+	lastT = t;
+
 	t.z = t.z + (speed * direction.z);
 	boost::optional<Collision> collisionZ = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
 	if (collisionZ.is_initialized()) {
@@ -56,6 +58,8 @@ void PlayerObject::update() {
 			t.y = lastT.y;
 		}
 	}
+
+	lastT = t;
 
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
 	boost::optional<Collision> collisionY = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
