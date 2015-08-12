@@ -23,7 +23,7 @@ class EnemyObject: public GameObject
 		EnemyObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId, Point3f location);
 
 		void init( Point3f location);
-		void updateHandler();
+		void update();
 	
 		void collisionHandler(GameObject *gameObject, Collision collision);
 		

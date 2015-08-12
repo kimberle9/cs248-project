@@ -4,6 +4,11 @@
 #include "simple_image.h"
 #include "simple_texture.h"
 #include "mesh.h"
+#include "scene.h"
+
+#include "triangle_triangle_intersection.h"
+
+extern Scene *scene;
 
 GameObject::GameObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) {
 	init(_name, meshFilePath);
@@ -24,51 +29,8 @@ void GameObject::init(const std::string& _name,  const std::string& meshFilePath
 	_destroyed = false;
 }
 
-void GameObject::recordLastPosition() {
-	lastT = t;
-	lastS = s;
-	lastR = r; 
-	lastRotationAngle = rotationAngle;
-}
-
-bool GameObject::hasPositionChanged() {
-	// TODO: take into account changes in s, r, and rotationAngle
-	return !(t == lastT);
-}
-
-bool GameObject::update() {
-	recordLastPosition();
-	updateHandler();
-	return hasPositionChanged();
-}
-
-bool GameObject::updateX() {
-	recordLastPosition();
-	updateXHandler();
-	return hasPositionChanged();
-}
-
-bool GameObject::updateY() {
-	recordLastPosition();
-	updateYHandler();
-	return hasPositionChanged();
-}
-
-bool GameObject::updateZ() {
-	recordLastPosition();
-	updateZHandler();
-	return hasPositionChanged();
-}
-
-void GameObject::postUpdate() {
-	postUpdateHandler();
-}
-
-void GameObject::revertLastUpdate() {
-	t = lastT;
-	s = lastS;
-	r = lastR; 
-	rotationAngle = lastRotationAngle;
+void GameObject::update() {
+	return;
 }
 
 void GameObject::draw() {
@@ -151,28 +113,53 @@ Point3f GameObject::getPosition() {
 	return t;
 }
 
-void GameObject::updateHandler() {
-	return;
+std::map<BBox3f, std::vector<Triangle3f> *> GameObject::getPartitionToTriangles(bool useCache) {
+	if (!useCache || partitionToTriangles.empty()) {
+		partitionToTriangles.clear();
+		for (auto &face : mesh.faces) {
+			Triangle3f faceT = face * s;
+			faceT.add(t);
+			for (auto partition: scene->partitions) {
+				std::vector<Triangle3f> *currTriangles;
+				if (partitionToTriangles.count(partition) == 0) {
+					currTriangles = new std::vector<Triangle3f>();
+					partitionToTriangles.insert(std::pair<BBox3f, std::vector<Triangle3f> *>(partition, currTriangles));
+				} else {
+					currTriangles = partitionToTriangles[partition];
+				}
+				if (partition.intersects(faceT.getBBox())) {
+					currTriangles->push_back(faceT);
+				}
+			}
+		}
+	}
+	return partitionToTriangles;
 }
 
-void GameObject::updateXHandler() {
-	return;
-}
-
-
-void GameObject::updateYHandler() {
-	return;
-}
-
-
-void GameObject::updateZHandler() {
-	return;
-}
-
-void GameObject::postUpdateHandler() {
-	return;
-}
-
-void GameObject::collisionHandler(GameObject *gameObject, Collision collision) {
-	return;
+boost::optional<Collision> GameObject::getCollision(
+	std::map<BBox3f, std::vector<Triangle3f> *> partitionToTriangles1,
+	std::map<BBox3f, std::vector<Triangle3f> *> partitionToTriangles2
+) {
+	for (auto partition: scene->partitions) {
+		std::vector<Triangle3f> *triangles1 = partitionToTriangles1[partition];
+		std::vector<Triangle3f> *triangles2 = partitionToTriangles2[partition];
+		if (triangles1 != NULL && triangles2 != NULL && !triangles1->empty() && !triangles2->empty()) {
+			for (auto &triangle1: *triangles1) {
+				for (auto &triangle2: *triangles2) {
+					if (triangle1.getBBox().intersects(triangle2.getBBox())) {
+						float p1[3] = { triangle1.a.x, triangle1.a.y, triangle1.a.z };
+						float p2[3] = { triangle1.b.x, triangle1.b.y, triangle1.b.z };
+						float p3[3] = { triangle1.c.x, triangle1.c.y, triangle1.c.z };
+						float q1[3] = { triangle2.a.x, triangle2.a.y, triangle2.a.z };
+						float q2[3] = { triangle2.b.x, triangle2.b.y, triangle2.b.z };
+						float q3[3] = { triangle2.c.x, triangle2.c.y, triangle2.c.z };
+						if (tri_tri_overlap_test_3d( p1, p2, p3, q1, q2, q3) == 1) {
+							return Collision(triangle1, triangle2);
+						}
+					}
+				}
+			}
+		}
+	}
+	return boost::none;
 }

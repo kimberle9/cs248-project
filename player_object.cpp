@@ -3,6 +3,8 @@
 #include "coin_object.h"
 #include "scene.h"
 
+extern GameObject* environment;
+
 PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) :
 	GameObject(_name, meshFilePath, _color) 
 {
@@ -30,13 +32,37 @@ void PlayerObject::resetPlayer() {
 	turn(0);
 }
 
-void PlayerObject::updateXHandler() {
-	t.x = t.x + (speed * direction.x);
-}
+void PlayerObject::update() {
+	Point3f lastT = t;
 
-void PlayerObject::updateYHandler() {
+	t.x = t.x + (speed * direction.x);
+	boost::optional<Collision> collisionX = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
+	if (collisionX.is_initialized()) {
+		t.y = t.y + (SPEED * (direction.y + 1)); // try moving diagnoally up
+		boost::optional<Collision> collisionX1 = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
+		if (collisionX1.is_initialized()) {
+			t.x = lastT.x;
+			t.y = lastT.y;
+		}
+	}
+
+	t.z = t.z + (speed * direction.z);
+	boost::optional<Collision> collisionZ = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
+	if (collisionZ.is_initialized()) {
+		t.y = t.y + (SPEED * (direction.y + 1)); // try moving diagnoally up
+		boost::optional<Collision> collisionZ1 = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
+		if (collisionZ1.is_initialized()) {
+			t.z = lastT.z;
+			t.y = lastT.y;
+		}
+	}
+
 	t.y = t.y + (SPEED * direction.y); //now time for up and down
-	
+	boost::optional<Collision> collisionY = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
+	if (collisionY.is_initialized()) {
+		t.y = lastT.y;
+	}
+
 	if (direction.y != 0) {
 		direction.y += GRAVITY;
 		if ( direction.y < MAX_Y_SPEED )
@@ -44,14 +70,7 @@ void PlayerObject::updateYHandler() {
 			direction.y = MAX_Y_SPEED;
 		}
 	}
-}
 
-void PlayerObject::updateZHandler() {
-	t.z = t.z + (speed * direction.z);
-}
-
-void PlayerObject::postUpdateHandler()
-{
 	speed = 0; //if speed were set, reset it to 0
 
 	if (getBoundingBox().min.y < SCENE_BBOX.min.y - 1) {
@@ -138,7 +157,4 @@ void PlayerObject::addCoin()
 	}
 	
 	return;
-}
-
-void PlayerObject::collisionHandler(GameObject *gameObject, Collision collision) {
 }

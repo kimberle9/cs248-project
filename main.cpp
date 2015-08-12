@@ -18,7 +18,7 @@
 #include "enemy_object.h"
 #include "scene.h"
 
-Scene scene;
+Scene *scene;
 
 PlayerObject *player;
 GameObject *environment;
@@ -63,9 +63,9 @@ void displayCallback() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    scene.update();
+    scene->update();
     updateCamera();
-    scene.draw();
+    scene->draw();
 
     glutSwapBuffers();
 }
@@ -84,14 +84,16 @@ void reshapeCallback(int w, int h) {
 void setup() {
     glGenTextures(1, textures);
 
+    scene = new Scene();
+    
     player = new PlayerObject("player", "objects/tree.obj", RGBColor(0.0, 1.0, 0.0));
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
     
-    CoinObject::generateCoins( &scene);
-    EnemyObject::generateEnemies( &scene);
+    CoinObject::generateCoins(scene);
+    EnemyObject::generateEnemies(scene);
     
-    scene.gameObjects.push_back( environment);
-    scene.gameObjects.push_back ( player);
+    scene->gameObjects.push_back( environment);
+    scene->gameObjects.push_back ( player);
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glShadeModel (GL_SMOOTH);

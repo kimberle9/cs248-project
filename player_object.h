@@ -41,12 +41,7 @@ class PlayerObject: public GameObject
 		void die();
 		void addCoin();
 	
-		void updateXHandler(); 
-		void updateYHandler(); 
-		void updateZHandler(); 
-		void postUpdateHandler();
-
-		void collisionHandler(GameObject *gameObject, Collision collision);
+		void update();
 
 	private:
 	

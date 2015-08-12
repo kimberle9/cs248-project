@@ -17,8 +17,6 @@ public:
 	Scene();
 	void update();
 	void draw();
-	void testCollision(GameObject *gameObject1, GameObject *gameObject2);
-	void updateTriangles(GameObject *gameObject);
 };
 
 #endif // __SCENE_H__
