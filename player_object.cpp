@@ -38,7 +38,7 @@ void PlayerObject::update() {
 	t.x = t.x + (speed * direction.x);
 	boost::optional<Collision> collisionX = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
 	if (collisionX.is_initialized()) {
-		t.y = t.y + (SPEED * (direction.y + 1)); // try moving diagnoally up
+		t.y = t.y + (SPEED * (direction.y + 1.2)); // try moving diagnoally up
 		boost::optional<Collision> collisionX1 = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
 		if (collisionX1.is_initialized()) {
 			t.x = lastT.x;
@@ -51,7 +51,7 @@ void PlayerObject::update() {
 	t.z = t.z + (speed * direction.z);
 	boost::optional<Collision> collisionZ = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
 	if (collisionZ.is_initialized()) {
-		t.y = t.y + (SPEED * (direction.y + 1)); // try moving diagnoally up
+		t.y = t.y + (SPEED * (direction.y + 1.2)); // try moving diagnoally up
 		boost::optional<Collision> collisionZ1 = getCollision(getPartitionToTriangles(false), environment->getPartitionToTriangles(true));
 		if (collisionZ1.is_initialized()) {
 			t.z = lastT.z;
