@@ -4,6 +4,7 @@
 #include "scene.h"
 
 extern GameObject* environment;
+extern Scene* scene;
 
 PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color) :
 	GameObject(_name, meshFilePath, _color) 
@@ -19,13 +20,13 @@ PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFile
 
 void PlayerObject::init() 
 {
-	lives = 3;
+	lives = INITIAL_LIVES;
 	coins = 0;
-	setRotation( 0, Point3f( 0.0, 1.0, 0.0));
 	resetPlayer();
 }
 
 void PlayerObject::resetPlayer() {
+	setRotation(0, Point3f( 0.0, 1.0, 0.0));
 	t = INITIAL_TRANSLATION;
 	directionAngle = INITIAL_DIRECTION;
 	setScale(PLAYER_SCALE);
@@ -141,6 +142,21 @@ void PlayerObject::die()
 {
 	lives--;
 	resetPlayer();
+
+	if (lives == 0) {
+		scene->screen = LOSE_SCREEN;
+		lives = INITIAL_LIVES;
+	}
+	
+	return;
+}
+
+void PlayerObject::win()
+{
+	lives = INITIAL_LIVES;
+	resetPlayer();
+	scene->screen = WIN_SCREEN;
+
 	return;
 }
 

@@ -99,16 +99,16 @@ void EnemyObject::setExplodeRadius( float _explodeRadius) { explodeRadius = _exp
 
 void EnemyObject::generateEnemies( Scene* scene)
 {
-	scene->gameObjects.push_back( new EnemyObject("enemy1", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy1", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
 	
-	scene->gameObjects.push_back( new EnemyObject("enemy2", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_2_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy2", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_2_LOCATION));
 	
-	scene->gameObjects.push_back( new EnemyObject("enemy3", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_3_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy3", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_3_LOCATION));
 	
-	scene->gameObjects.push_back( new EnemyObject("enemy4", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_4_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy4", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_4_LOCATION));
 	
 	EnemyObject* boss = new EnemyObject("enemy5", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), BOSS_LOCATION);
 	boss->setScale( Point3f( 0.25, 0.25, 0.25));
 	boss->setExplodeRadius( 1.5);
-	scene->gameObjects.push_back( boss);
+	scene->addObject(GAME_SCREEN, boss);
 }

@@ -9,23 +9,37 @@
 #include "player_object.h"
 
 Scene::Scene() {
-	SCENE_BBOX.partition(partitions, PARTITION_SIZE.x, PARTITION_SIZE.y, PARTITION_SIZE.z);
+    screen = START_SCREEN;
+    SCENE_BBOX.partition(partitions, PARTITION_SIZE.x, PARTITION_SIZE.y, PARTITION_SIZE.z);
 }
 
 void Scene::update() {
-    for (GameObject *gameObject: gameObjects) {
+    std::vector<GameObject *> *gameObjects = screenToGameObjects[screen];
+    for (GameObject *gameObject: *gameObjects) {
     	gameObject->update();
     	
     	if ( gameObject->destroyed() )
     	{
-    		gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
+    		gameObjects->erase(std::remove(gameObjects->begin(), gameObjects->end(), gameObject), gameObjects->end());
     		continue;
     	}
     }
 }
 
 void Scene::draw() {
-    for (GameObject *gameObject: gameObjects) {
-    	gameObject->draw();
+    std::vector<GameObject *> *gameObjects = screenToGameObjects[screen];
+    for (GameObject *gameObject: *gameObjects) {
+        gameObject->draw();
     }
+}
+
+void Scene::addObject(int addScreen, GameObject *gameObject) {
+    std::vector<GameObject *> *currGameObjects;
+    if (screenToGameObjects.count(addScreen) == 0) {
+        currGameObjects = new std::vector<GameObject *>();
+        screenToGameObjects.insert(std::pair<int, std::vector<GameObject *> *>(addScreen, currGameObjects));
+    } else {
+        currGameObjects = screenToGameObjects[addScreen];
+    }
+    currGameObjects->push_back(gameObject);
 }

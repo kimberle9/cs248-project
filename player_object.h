@@ -4,8 +4,8 @@
 #include "game_object.h"
 
 #define GRAVITY -0.17
-#define JUMP_VELOCITY .9
-#define SPEED 0.95
+#define JUMP_VELOCITY .8
+#define SPEED 0.75
 #define LEFT_TURN .23
 #define RIGHT_TURN -.23
 #define MAX_Y_SPEED -0.8
@@ -14,6 +14,8 @@
 #define INITIAL_DIRECTION 91
 
 #define PLAYER_SCALE Point3f(.12, .12, .12)
+
+#define INITIAL_LIVES 3
 
 class PlayerObject: public GameObject
 {
@@ -39,6 +41,7 @@ class PlayerObject: public GameObject
 		void attack( GameObject* otherObject);
 		
 		void die();
+		void win();
 		void addCoin();
 	
 		void update();

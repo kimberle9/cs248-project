@@ -38,8 +38,7 @@ class CoinObject: public GameObject
 		
 		static void generateCoins( Scene* scene);
 
-	private:
-	
+	private:		
 		float rotation;
 		
 		void rotateCoin();
