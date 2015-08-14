@@ -16,12 +16,8 @@ Scene::Scene() {
 void Scene::update() {
     std::vector<GameObject *> *objects = screenToObjects[screen];
     for (GameObject *object: *objects) {
-    	object->update();
-    	
-    	if ( object->destroyed() )
-    	{
-    		objects->erase(std::remove(objects->begin(), objects->end(), object), objects->end());
-    		continue;
+    	if (!object->destroyed()) {
+            object->update();
     	}
     }
 }
@@ -29,22 +25,26 @@ void Scene::update() {
 void Scene::draw() {
     std::vector<GameObject *> *objects = screenToObjects[screen];
     for (GameObject *object: *objects) {
-        object->draw();
+        if (!object->destroyed()) {
+            object->draw();
+        }
     }
 }
 
-void Scene::addObject(int addScreen, GameObject *object) {
+void Scene::addObject(int screen, GameObject *object) {
     std::vector<GameObject *> *currObjects;
-    if (screenToObjects.count(addScreen) == 0) {
+    if (screenToObjects.count(screen) == 0) {
         currObjects = new std::vector<GameObject *>();
-        screenToObjects.insert(std::pair<int, std::vector<GameObject *> *>(addScreen, currObjects));
+        screenToObjects.insert(std::pair<int, std::vector<GameObject *> *>(screen, currObjects));
     } else {
-        currObjects = screenToObjects[addScreen];
+        currObjects = screenToObjects[screen];
     }
     currObjects->push_back(object);
 }
 
-void Scene::clearObjects(int screen) {
+void Scene::restore(int screen) {
     std::vector<GameObject *> *objects = screenToObjects[screen];
-    objects->clear();
+    for (GameObject *object: *objects) {
+        object->restore();
+    }
 }

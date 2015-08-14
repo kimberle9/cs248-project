@@ -9,8 +9,8 @@ CoinObject::CoinObject(const std::string& _name, const std::string& meshFilePath
 	init( location);
 }
 
-CoinObject::CoinObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId, Point3f location) :
-  GameObject(_name, meshFilePath, textureImageFilename, texId) 
+CoinObject::CoinObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, Point3f location) :
+  GameObject(_name, meshFilePath, textureImageFilename) 
 { 
 	init( location);
 }
@@ -57,25 +57,25 @@ void CoinObject::collisionHandler(GameObject *gameObject, Collision collision) {
 
 void CoinObject::generateCoins( Scene* scene)
 {
-	scene->addObject(GAME_SCREEN, new CoinObject("coin1", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_1_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin1", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_1_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin2", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_2_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin2", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_2_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin3", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_3_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin3", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_3_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin4", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_4_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin4", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_4_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin5", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_5_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin5", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_5_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin6", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_6_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin6", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_6_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin7", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_7_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin7", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_7_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin8", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_8_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin8", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_8_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin9", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_9_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin9", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_9_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new CoinObject("coin10", "objects/coin.obj", RGBColor(1.0, 1.0, 0.0), COIN_10_LOCATION));
+	scene->addObject(GAME_SCREEN, new CoinObject("coin10", "objects/textured_coin.obj", "textures/Coin_texture.png", COIN_10_LOCATION));
 	
 	CoinObject* goal = new CoinObject("star", "objects/star.obj", RGBColor(1.0, 1.0, 0.0), STAR_LOCATION);
 	goal->setScale( Point3f( 0.3, 0.3, 0.3));

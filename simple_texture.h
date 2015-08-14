@@ -5,6 +5,8 @@
 #include "findGLUT.h"
 #include "simple_image.h"
 
+#define MAX_TEXTURES 100
+
 /**
 * The SimpleTexture class allows use of an SimpleImage as an OpenGL texture.
 * In the simplest case, just construct a new SimpleTexture with an image:
@@ -45,10 +47,8 @@ public:
     // image (which will be copied in). Use the options to specify
     // whether mipmaps should be generated.
     //
-    SimpleTexture(GLuint texId, const SimpleImage* image,
-              ImageOptions options = kNone);
-	SimpleTexture(GLuint texId, const float* pixels, int width, int height,
-		ImageOptions options = kNone);
+    SimpleTexture(const SimpleImage* image, ImageOptions options = kNone);
+	SimpleTexture(const float* pixels, int width, int height, ImageOptions options = kNone);
 
     //
     // Create an "empty" SimpleTexture with no image data. You will need
@@ -83,23 +83,6 @@ public:
     void unBind();
 
     //
-    // Set the OpenGL texture-filtering mode to use for texture
-    // magnification and minification respectively.
-    // For example:
-    //      SetFilter(GL_LINEAR,
-    //                GL_LINEAR_MIPMAP_LINEAR);
-    //
-    void setFilter(GLint magFilter, GLint minFilter);
-
-    //
-    // Set the OpenGL mode to use for texture addressing in
-    // the S and T dimensions respectively.
-    // For example:
-    //      SetWrap(GL_REPEAT, GL_REPEAT);
-    //
-    void setWrap(GLint wrapS, GLint wrapT);
-
-    //
     // Get the width (in pixels) of the image.
     //
     int getWidth() const { return mWidth; }
@@ -112,6 +95,8 @@ public:
 	// Common initialization code, used by all constructors.
 	void initialize();
 
+    static GLuint nextTexId();
+    static GLuint *getTextures();
 private:
 
     // The OpenGL texture id.

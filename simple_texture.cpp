@@ -1,14 +1,17 @@
 #include "simple_texture.h"
 
+static int texIdIndex;
+static GLuint textures[MAX_TEXTURES];
+
 SimpleTexture::SimpleTexture() {}
 SimpleTexture::~SimpleTexture() {}
 
-SimpleTexture::SimpleTexture(GLuint texId, const SimpleImage* image, ImageOptions options) {
-	loadImageData(texId, image, options);
+SimpleTexture::SimpleTexture(const SimpleImage* image, ImageOptions options) {
+	loadImageData(nextTexId(), image, options);
 }
 
-SimpleTexture::SimpleTexture(GLuint texId, const float* pixels, int width, int height, ImageOptions options) {
-	loadImageData(texId, pixels, width, height, options);
+SimpleTexture::SimpleTexture(const float* pixels, int width, int height, ImageOptions options) {
+	loadImageData(nextTexId(), pixels, width, height, options);
 }
 
 void SimpleTexture::loadImageData(GLuint texId, const SimpleImage* image, ImageOptions options) {
@@ -48,6 +51,12 @@ void SimpleTexture::unBind() {
 
 void SimpleTexture::initialize() {}
 
-// TODO
-void SimpleTexture::setFilter(GLint magFilter, GLint minFilter) {}
-void SimpleTexture::setWrap(GLint wrapS, GLint wrapT) {}
+GLuint SimpleTexture::nextTexId() {
+	GLuint texId = textures[texIdIndex];
+	texIdIndex++;
+	return texId;
+}
+
+GLuint *SimpleTexture::getTextures() {
+	return textures;
+}

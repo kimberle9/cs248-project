@@ -22,7 +22,7 @@ class EnemyObject: public GameObject
 	public:
 	
 		EnemyObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color, Point3f location);
-		EnemyObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId, Point3f location);
+		EnemyObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, Point3f location);
 
 		void init( Point3f location);
 		void update();
@@ -38,6 +38,7 @@ class EnemyObject: public GameObject
 		Point3f direction;
 		float speed;
 		float explodeRadius;
+		Point3f initialLocation;
 		
 		void disable();
 		void explode();

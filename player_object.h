@@ -25,7 +25,7 @@ class PlayerObject: public GameObject
 		int coins;
 	
 		PlayerObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color);
-		PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId);
+		PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename);
 
 		void init();
 		void resetPlayer();

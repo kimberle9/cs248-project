@@ -6,21 +6,22 @@ extern PlayerObject* player;
 EnemyObject::EnemyObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color, Point3f location) :
 	GameObject(_name, meshFilePath, _color) 
 {
-	init( location);
+	init(location);
 	direction = Point3f( 0.0, 0.0, 0.0);
 	speed = 0;
 }
 
-EnemyObject::EnemyObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId, Point3f location) :
-  GameObject(_name, meshFilePath, textureImageFilename, texId) 
+EnemyObject::EnemyObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, Point3f location) :
+  GameObject(_name, meshFilePath, textureImageFilename) 
 { 
-	init( location);
+	init(location);
 	direction = Point3f( 0.0, 0.0, 0.0);
 	speed = 0;
 }
 
 void EnemyObject::init( Point3f location) 
 {
+	initialLocation = location;
 	setScale( ENEMY_SCALE);
 	setTranslation( location);
 	setExplodeRadius( EXPLODE_DISTANCE);
@@ -81,6 +82,7 @@ void EnemyObject::update()
 void EnemyObject::disable()
 {
 	_destroyed = true;
+	init(initialLocation);
 	return;
 }
 
@@ -99,15 +101,15 @@ void EnemyObject::setExplodeRadius( float _explodeRadius) { explodeRadius = _exp
 
 void EnemyObject::generateEnemies( Scene* scene)
 {
-	scene->addObject(GAME_SCREEN, new EnemyObject("enemy1", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_1_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy1", "objects/bob_omb_new.obj", "textures/bob_omb_new.png", ENEMY_1_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new EnemyObject("enemy2", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_2_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy2", "objects/bob_omb_new.obj", "textures/bob_omb_new.png", ENEMY_2_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new EnemyObject("enemy3", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_3_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy3", "objects/bob_omb_new.obj", "textures/bob_omb_new.png", ENEMY_3_LOCATION));
 	
-	scene->addObject(GAME_SCREEN, new EnemyObject("enemy4", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), ENEMY_4_LOCATION));
+	scene->addObject(GAME_SCREEN, new EnemyObject("enemy4", "objects/bob_omb_new.obj", "textures/bob_omb_new.png", ENEMY_4_LOCATION));
 	
-	EnemyObject* boss = new EnemyObject("enemy5", "objects/bob_omb.obj", RGBColor(1.0, 0.0, 0.0), BOSS_LOCATION);
+	EnemyObject* boss = new EnemyObject("enemy5", "objects/bob_omb_new.obj", "textures/bob_omb_new.png", BOSS_LOCATION);
 	boss->setScale( Point3f( 0.25, 0.25, 0.25));
 	boss->setExplodeRadius( 1.5);
 	scene->addObject(GAME_SCREEN, boss);

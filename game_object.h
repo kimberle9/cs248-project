@@ -44,8 +44,7 @@ public:
 	GameObject(
 		const std::string& _name,
 		const std::string& meshFilePath,
-		const std::string& textureImageFilename,
-		GLuint texId
+		const std::string& textureImageFilename
 	);
 
 	// common initialization code
@@ -65,6 +64,7 @@ public:
 	float horizontalDistanceFrom( GameObject* otherObject);
 	float verticalDistanceFrom( GameObject* otherObject);
 	bool destroyed();
+	void restore();
 
 	std::map<BBox3f, std::vector<Triangle3f> *> getPartitionToTriangles(bool useCache);
 

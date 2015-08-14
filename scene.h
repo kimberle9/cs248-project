@@ -24,8 +24,10 @@ public:
 	Scene();
 	void update();
 	void draw();
+
 	void addObject(int screen, GameObject *gameObject);
-	void clearObjects(int screen);
+
+	void restore(int screen);
 };
 
 #endif // __SCENE_H__

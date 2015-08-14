@@ -29,7 +29,7 @@ class CoinObject: public GameObject
 	public:
 	
 		CoinObject(const std::string& _name, const std::string& meshFilePath, RGBColor _color, Point3f location);
-		CoinObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId, Point3f location);
+		CoinObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, Point3f location);
 
 		void init( Point3f location);
 		void update();

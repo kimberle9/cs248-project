@@ -12,8 +12,8 @@ PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFile
 	init();
 }
 
-PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId) :
-  GameObject(_name, meshFilePath, textureImageFilename, texId) 
+PlayerObject::PlayerObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename) :
+  GameObject(_name, meshFilePath, textureImageFilename) 
 { 
 	init();
 }

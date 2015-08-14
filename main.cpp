@@ -18,10 +18,10 @@
 #include "enemy_object.h"
 #include "scene.h"
 
+#include "simple_texture.h"
+
 #define STATIC_SCREEN_CAMERA_POSITION Point3f(0, 3.0, 7.5)
 #define STATIC_SCREEN_CAMERA_AIM Point3f(0, 3.0, 0)
-
-#define NUM_TEXTURES 5
 
 Scene *scene;
 
@@ -37,8 +37,6 @@ GameObject* loseScreen;
 Point3f cameraNormal = Point3f(0.0, 1.0, 0.0);
 Point3f cameraPositionOffset = Point3f(0.0, 0.0, 0.0);
 Point3f cameraAimOffset = Point3f(0.0, 0.0, 0.0);
-
-GLuint textures[NUM_TEXTURES];
 
 Point3f getCameraPosition() {
     if (scene->screen == GAME_SCREEN) {
@@ -102,35 +100,30 @@ void reshapeCallback(int w, int h) {
     glLoadIdentity();
 }
 
-void addGameObjects() {
-    CoinObject::generateCoins(scene);
-    EnemyObject::generateEnemies(scene);
-    
-    scene->addObject(GAME_SCREEN, environment);
-    scene->addObject(GAME_SCREEN, player);
-    scene->addObject(GAME_SCREEN, sky);
-}
-
 void setup() {
-    glGenTextures(NUM_TEXTURES, textures);
+    glGenTextures(MAX_TEXTURES, SimpleTexture::getTextures());
 
     scene = new Scene();
     
-    player = new PlayerObject("player", "objects/character.obj", RGBColor(0.0, 1.0, 0.0));
-    environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
-    sky = new GameObject("sky", "environments/textured_sky.obj", "textures/Sky.png", textures[1]); 
+    player = new PlayerObject("player", "objects/character_new.obj", "textures/character_new.png");
+    environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png");
+    sky = new GameObject("sky", "environments/textured_sky.obj", "textures/Sky.png"); 
     sky->setScale(Point3f( 20.0, 20.0, 20.0));
-    addGameObjects();
+    CoinObject::generateCoins(scene);
+    EnemyObject::generateEnemies(scene);
+    scene->addObject(GAME_SCREEN, environment);
+    scene->addObject(GAME_SCREEN, player);
+    scene->addObject(GAME_SCREEN, sky);
 
-    startScreen = new GameObject("start_screen", "environments/textured_plane.obj", "textures/Main_menu.png", textures[2]);
+    startScreen = new GameObject("start_screen", "environments/textured_plane.obj", "textures/Main_menu.png");
     startScreen->setScale(Point3f(1.31, 1.0, 1.0));
     scene->addObject(START_SCREEN, startScreen);
 
-    winScreen = new GameObject("win_screen", "environments/textured_plane.obj", "textures/Win.png", textures[3]);
+    winScreen = new GameObject("win_screen", "environments/textured_plane.obj", "textures/Win.png");
     winScreen->setScale(Point3f(1.31, 1.0, 1.0));
     scene->addObject(WIN_SCREEN, winScreen);
 
-    loseScreen = new GameObject("lose_screen", "environments/textured_plane.obj", "textures/Lose.png", textures[4]);
+    loseScreen = new GameObject("lose_screen", "environments/textured_plane.obj", "textures/Lose.png");
     loseScreen->setScale(Point3f(1.31, 1.0, 1.0));
     scene->addObject(LOSE_SCREEN, loseScreen);
 
@@ -203,8 +196,7 @@ void keyCallback(unsigned char key, int x, int y) {
     } else if (scene->screen == WIN_SCREEN || scene->screen == LOSE_SCREEN) {
         switch(key) {
             case 'r': { 
-                scene->clearObjects(GAME_SCREEN);
-                addGameObjects();
+                scene->restore(GAME_SCREEN);
                 scene->screen = GAME_SCREEN;
                 break; 
              }

@@ -15,13 +15,13 @@ GameObject::GameObject(const std::string& _name, const std::string& meshFilePath
 	color = _color;
 }
 
-GameObject::GameObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename, GLuint texId) {
+GameObject::GameObject(const std::string& _name, const std::string& meshFilePath, const std::string& textureImageFilename) {
 	init(_name, meshFilePath);
 	SimpleImage img = SimpleImage(textureImageFilename);
-	texture = new SimpleTexture(texId, &img, SimpleTexture::kNone);
+	texture = new SimpleTexture(&img, SimpleTexture::kNone);
 }
 
-void GameObject::init(const std::string& _name,  const std::string& meshFilePath) {
+void GameObject::init(const std::string& _name, const std::string& meshFilePath) {
 	s = Point3f(1.0, 1.0, 1.0);
 	rotationAngle = 0;
 	name = _name;
@@ -95,6 +95,11 @@ float GameObject::verticalDistanceFrom( GameObject* otherObject)
 bool GameObject::destroyed()
 {
 	return _destroyed;
+}
+
+void GameObject::restore()
+{
+	_destroyed = false;
 }
 
 void GameObject::setScale(Point3f _s) { s = _s; }
