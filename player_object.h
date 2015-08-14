@@ -17,6 +17,8 @@
 
 #define INITIAL_LIVES 3
 
+#define MIN_Y_THRESH -8
+
 class PlayerObject: public GameObject
 {
 	public:

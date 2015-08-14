@@ -79,7 +79,7 @@ void PlayerObject::update() {
 
 	speed = 0; //if speed were set, reset it to 0
 
-	if (getBoundingBox().min.y < SCENE_BBOX.min.y - 1) {
+	if (getBoundingBox().min.y < MIN_Y_THRESH) {
 		die();
 	}
 }
