@@ -14,32 +14,37 @@ Scene::Scene() {
 }
 
 void Scene::update() {
-    std::vector<GameObject *> *gameObjects = screenToGameObjects[screen];
-    for (GameObject *gameObject: *gameObjects) {
-    	gameObject->update();
+    std::vector<GameObject *> *objects = screenToObjects[screen];
+    for (GameObject *object: *objects) {
+    	object->update();
     	
-    	if ( gameObject->destroyed() )
+    	if ( object->destroyed() )
     	{
-    		gameObjects->erase(std::remove(gameObjects->begin(), gameObjects->end(), gameObject), gameObjects->end());
+    		objects->erase(std::remove(objects->begin(), objects->end(), object), objects->end());
     		continue;
     	}
     }
 }
 
 void Scene::draw() {
-    std::vector<GameObject *> *gameObjects = screenToGameObjects[screen];
-    for (GameObject *gameObject: *gameObjects) {
-        gameObject->draw();
+    std::vector<GameObject *> *objects = screenToObjects[screen];
+    for (GameObject *object: *objects) {
+        object->draw();
     }
 }
 
-void Scene::addObject(int addScreen, GameObject *gameObject) {
-    std::vector<GameObject *> *currGameObjects;
-    if (screenToGameObjects.count(addScreen) == 0) {
-        currGameObjects = new std::vector<GameObject *>();
-        screenToGameObjects.insert(std::pair<int, std::vector<GameObject *> *>(addScreen, currGameObjects));
+void Scene::addObject(int addScreen, GameObject *object) {
+    std::vector<GameObject *> *currObjects;
+    if (screenToObjects.count(addScreen) == 0) {
+        currObjects = new std::vector<GameObject *>();
+        screenToObjects.insert(std::pair<int, std::vector<GameObject *> *>(addScreen, currObjects));
     } else {
-        currGameObjects = screenToGameObjects[addScreen];
+        currObjects = screenToObjects[addScreen];
     }
-    currGameObjects->push_back(gameObject);
+    currObjects->push_back(object);
+}
+
+void Scene::clearObjects(int screen) {
+    std::vector<GameObject *> *objects = screenToObjects[screen];
+    objects->clear();
 }

@@ -18,13 +18,14 @@ class Scene {
 public:
 	int screen;
 
-	std::map<int, std::vector<GameObject *> *> screenToGameObjects;
+	std::map<int, std::vector<GameObject *> *> screenToObjects;
 	std::vector<BBox3f> partitions;
 
 	Scene();
 	void update();
 	void draw();
 	void addObject(int screen, GameObject *gameObject);
+	void clearObjects(int screen);
 };
 
 #endif // __SCENE_H__

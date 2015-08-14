@@ -28,6 +28,7 @@ Scene *scene;
 PlayerObject *player;
 GameObject *environment;
 CoinObject *coins;
+GameObject* sky;
 
 GameObject* startScreen;
 GameObject* winScreen;
@@ -101,6 +102,15 @@ void reshapeCallback(int w, int h) {
     glLoadIdentity();
 }
 
+void addGameObjects() {
+    CoinObject::generateCoins(scene);
+    EnemyObject::generateEnemies(scene);
+    
+    scene->addObject(GAME_SCREEN, environment);
+    scene->addObject(GAME_SCREEN, player);
+    scene->addObject(GAME_SCREEN, sky);
+}
+
 void setup() {
     glGenTextures(NUM_TEXTURES, textures);
 
@@ -108,16 +118,9 @@ void setup() {
     
     player = new PlayerObject("player", "objects/character.obj", RGBColor(0.0, 1.0, 0.0));
     environment = new GameObject("environment", "environments/textured_environment.obj", "textures/Environment_texture.png", textures[0]);
-   
-    GameObject* sky = new GameObject("sky", "environments/textured_sky.obj", "textures/Sky.png", textures[1]); 
+    sky = new GameObject("sky", "environments/textured_sky.obj", "textures/Sky.png", textures[1]); 
     sky->setScale(Point3f( 20.0, 20.0, 20.0));
-    
-    CoinObject::generateCoins(scene);
-    EnemyObject::generateEnemies(scene);
-    
-    scene->addObject(GAME_SCREEN, environment);
-    scene->addObject(GAME_SCREEN, player);
-    scene->addObject(GAME_SCREEN, sky);
+    addGameObjects();
 
     startScreen = new GameObject("start_screen", "environments/textured_plane.obj", "textures/Main_menu.png", textures[2]);
     startScreen->setScale(Point3f(1.31, 1.0, 1.0));
@@ -135,6 +138,7 @@ void setup() {
     glShadeModel (GL_SMOOTH);
     glEnable( GL_DEPTH_TEST);
 }
+
 
 void printCameraCoords() {
     Point3f cameraPosition = getCameraPosition();
@@ -198,7 +202,12 @@ void keyCallback(unsigned char key, int x, int y) {
         }
     } else if (scene->screen == WIN_SCREEN || scene->screen == LOSE_SCREEN) {
         switch(key) {
-            case 'r': { scene->screen = GAME_SCREEN; break; }
+            case 'r': { 
+                scene->clearObjects(GAME_SCREEN);
+                addGameObjects();
+                scene->screen = GAME_SCREEN;
+                break; 
+             }
             default: { break; }
         }
     }
